@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Admin from './containers/admin/admin';
 import './index.css';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
@@ -13,7 +13,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path='/' component={App} />
+      <Route path='/' component={Admin} />
     </Router>
   </Provider>,
   document.getElementById('root')
