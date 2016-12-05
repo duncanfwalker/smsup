@@ -10,7 +10,8 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "babel-node bin/start-client.js",
-    "server": "babel-node bin/start-server.js"
+    "server": "babel-node bin/start-server.js",
+    "test": "jest"
   },
   "dependencies": {
     "babel-cli": "6.14.0",
@@ -20,10 +21,19 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
+    "isomorphic-fetch": "^2.2.1",
+    "mongoose": "^4.6.8",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
+    "babel-jest": "^17.0.2",
+    "babel-polyfill": "^6.16.0",
     "concurrently": "^3.1.0"
+  },
+  "jest": {
+    "testPathDirs": [
+      "server"
+    ]
   }
 }
