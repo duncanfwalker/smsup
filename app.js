@@ -5,8 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var api = require('./server/api/index');
-
 var app = express();
+import { GROUPS_PATH } from './client/src/api/groups';
+const groupAdmin = require('./server/services/groupRepo');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -15,6 +16,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get(GROUPS_PATH, (req, res) => {
+  groupAdmin.list()
+    .then((group) => res.json(group));
+});
+
+app.put(GROUPS_PATH, (req, res) => {
+  groupAdmin.save(req.body)
+    .then((group) => res.json(group))
+    .catch(() => res.json({ status: 'bad' }));
+});
 
 app.use('/api', api);
 

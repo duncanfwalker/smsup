@@ -1,0 +1,26 @@
+import groups from './groups';
+import {groupUpdated} from './../containers/admin/actions';
+
+describe('reducer', () => {
+  const reducer = groups.reducer;
+  it('renders without crashing', () => {
+    const initialState = {data: [{ tag: 'a', phoneNumbers: ["1", "2"] }]};
+
+    const newPhoneNumbers = ["2", "3"];
+
+    const newState = reducer(initialState, groupUpdated({ tag: 'a', phoneNumbers: newPhoneNumbers }) );
+
+    expect(newState.data).toEqual([{ tag: 'a', phoneNumbers: newPhoneNumbers }])
+  });
+
+
+  it('renders without crashing', () => {
+    const initialState =  {data:[{ tag: 'a' }, { tag: 'b' }] };
+
+    const newPhoneNumbers = ["2", "3"];
+
+    const newState = reducer(initialState, groupUpdated({ tag: 'b', phoneNumbers: newPhoneNumbers }) );
+
+    expect(newState.data).toEqual([{ tag: 'a' }, { tag: 'b', phoneNumbers: newPhoneNumbers}])
+  });
+});

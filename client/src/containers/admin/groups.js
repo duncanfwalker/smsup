@@ -18,7 +18,7 @@ const Groups = ({ groups, onUpdated, onSave, isSaving }) => (
             placeholder="No one is subscribed to this group"
             className={`pt-input pt-fill group__phoneNumbers-${tag}`}
             onChange={(event) => onUpdated(tag, event.target.value.split(' '))}
-            value={phoneNumbers.join(' ')}
+            value={(phoneNumbers || []).join(' ')}
           />
         </label>
       </div>
