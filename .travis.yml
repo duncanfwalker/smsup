@@ -8,6 +8,8 @@ install:
 - cd client
 - npm install
 - npm run build
+- cd ..
+skip_cleanup: true
 notifications:
   email:
     on_failure: change
