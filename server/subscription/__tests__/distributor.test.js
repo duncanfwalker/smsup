@@ -46,4 +46,12 @@ describe('receive from Nexmo', () => {
         expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(['+111'])
       );
   });
+
+  it('returns tag matched null when there is no content', () => {
+    return distribute('+000', null)
+
+      .then((result) =>
+        expect(result).toEqual(null)
+      );
+  });
 });

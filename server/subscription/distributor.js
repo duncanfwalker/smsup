@@ -2,6 +2,8 @@ import groupRepo from './groupRepo';
 import nexmo from '../gateways/nexmo';
 
 export function distribute(sender, content) {
+  if(content === null) return Promise.resolve(null);
+
   return findDistributionList(content)
     .then(({ phoneNumbers, tag }) => {
       phoneNumbers
