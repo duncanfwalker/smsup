@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+- 6
+script: npm run build
+install:
+- npm i -g npm@latest
+- npm install
+- cd client
+- npm install
+- npm run build
+notifications:
+  email:
+    on_failure: change
+after_success: npm test
+cache:
+  directories:
+  - node_modules
+  - client/node_modules
+deploy:
+  provider: heroku
+  api_key:
+    secure: mP/XpVzptY5wz82tUcHD7yobZcB8NUXhuca0HXGA/RZQPUiswU2Wlqt0zovOeIEAG74MKZp3gpnCyIXvYPkpiRIJvPxX72cVjCDgMTp9CKK5JQHB2K9hVUOlsOhRWnBGbUx8rrQ4Ry2Qd6sPg42xrqQsk0nUzuEhglzNsR8qTGFLyWgpe2Yu2UPtwCka7lTZJSO+5BC0JBOXV3Gb9V0/5YrcO4i11OkmN14RfN6ulwzqPLXCDftRa3qpm3j10tpBGKBaMbCkXOBvVAfXrcmHI7pLcPPY0D3hyjoxgWNrczJ+JpINQ0DpIcoS2gEcUEZxbqqGA/ZP1B763fVxvW0bmnoZJX3obIh3IgT5hMJvbaeVb5rQdAZX1Gklj9DBAKNIkF1bH/YTM7ycbL4OOlhcw/DoEV1px/qZW2OMQ5Xbt9wLFdE9ycoFs9gqMoLqRozkeu35D7nubgyw0LMQIACDityxnxF/otJw+cjhj+Uu8wAwpUxvUtME2bHdkG/0jwkIw+ANwZYyPEOJvZHmo2mdgBNDYCN7Zhd8fQzKxMri3cPOn4qX0vk6DwO4J671g0XDdws1iMWo5HvySNK9VXlCtj9+gJUgAplXAoMTytL18YpOijLVSY2BwydtqOMdJc3F569ikhrVuPAt5h2YSJXRjapcmeZ44XUThyTEy63UGPw=
+  app: smsup
+  on:
+    repo: duncanfwalker/smsup
