@@ -11,6 +11,7 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "babel-node bin/start-client.js",
     "server": "babel-node bin/start-server.js",
+    "build": "cd client ; npm run build ; cd ..",
     "test": "jest"
   },
   "dependencies": {
