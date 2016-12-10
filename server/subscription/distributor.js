@@ -1,5 +1,5 @@
 import groupRepo from './groupRepo';
-import nexmo from './gateways/nexmo';
+import nexmo from '../gateways/nexmo';
 
 export function distribute(sender, content) {
   return findDistributionList(content)

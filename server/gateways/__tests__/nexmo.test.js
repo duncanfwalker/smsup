@@ -9,7 +9,7 @@ jest.mock('isomorphic-fetch', () => {
   }));
 });
 import fetch from 'isomorphic-fetch';
-import { receivingAdapter, send } from './nexmo';
+import { receivingAdapter, send } from '../nexmo';
 
 describe('receive from Nexmo', () => {
   it('converts to our message format', () => {

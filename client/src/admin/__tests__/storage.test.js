@@ -1,8 +1,8 @@
-import groups from './groups';
-import {groupUpdated} from './../containers/admin/actions';
+import api from '../storage';
+import {groupUpdated} from '../actions';
 
 describe('reducer', () => {
-  const reducer = groups.reducer;
+  const reducer = api.reducer;
   it('renders without crashing', () => {
     const initialState = {data: [{ tag: 'a', phoneNumbers: ["1", "2"] }]};
 

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import './admin.css';
-import Groups from './groups';
+import Groups from './components/groups';
 import { groupUpdated } from './actions';
 import { connect } from 'react-redux';
-import rest from '../../api'; //our redux-rest object
+import rest from '../api'; //our redux-rest object
 
 class Admin extends Component {
   componentWillMount() {

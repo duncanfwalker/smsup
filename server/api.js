@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router(); // eslint-disable-line new-cap
-const distributor = require('./../services/distributor');
-const nexmo = require('./../services/gateways/nexmo');
+const distributor = require('./subscription/distributor');
+const nexmo = require('././gateways/nexmo');
 
 // TODO: extract this to gateways
 router.post('/receive', (req, res) => {

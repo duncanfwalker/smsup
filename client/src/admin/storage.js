@@ -1,5 +1,5 @@
 import { transformers } from 'redux-api';
-import { GROUP_UPDATED } from '../containers/admin/constants';
+import { GROUP_UPDATED } from './constants';
 
 export const GROUPS_PATH = '/group';
 

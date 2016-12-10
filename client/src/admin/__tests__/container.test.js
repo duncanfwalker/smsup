@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Admin from './admin';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import Container from '../container';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
@@ -11,5 +10,5 @@ it('renders without crashing', () => {
     dispatch: ()=> {},
     subscribe: ()=> {},
   };
-  ReactDOM.render(<Admin store={mockStore} />, div);
+  ReactDOM.render(<Container store={mockStore} />, div);
 });

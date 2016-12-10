@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var api = require('./server/api/index');
+var api = require('./server/api');
 var app = express();
-import { GROUPS_PATH } from './client/src/api/groups';
-const groupAdmin = require('./server/services/groupRepo');
+import { GROUPS_PATH } from './client/src/admin/storage';
+const groupAdmin = require('./server/subscription/groupRepo');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -15,7 +15,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+}
 
 app.get(GROUPS_PATH, (req, res) => {
   groupAdmin.list()

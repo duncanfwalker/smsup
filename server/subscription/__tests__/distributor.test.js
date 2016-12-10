@@ -1,9 +1,9 @@
-jest.mock('./gateways/nexmo', () => ({ send: jest.fn()  }));
-jest.mock('./groupRepo', () => ({ find: jest.fn(() => new Promise((r) => r())) }));
+jest.mock('../../gateways/nexmo', () => ({ send: jest.fn()  }));
+jest.mock('../groupRepo', () => ({ find: jest.fn(() => new Promise((r) => r())) }));
 
-import nexmo from './gateways/nexmo';
-import { distribute } from './distributor';
-import groupRepo from './groupRepo';
+import nexmo from '../../gateways/nexmo';
+import { distribute } from '../distributor';
+import groupRepo from '../groupRepo';
 
 describe('receive from Nexmo', () => {
   beforeEach(() => {

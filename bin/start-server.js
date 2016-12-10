@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../server');
 var debug = require('debug')('smsup:server');
 var http = require('http');
 
@@ -24,6 +24,7 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+console.log(`port:${port}`);
 
 server.listen(port);
 server.on('error', onError);
