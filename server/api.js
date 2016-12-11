@@ -4,7 +4,7 @@ const distributor = require('./subscription/distributor');
 const nexmo = require('././gateways/nexmo');
 
 // TODO: extract this to gateways
-router.post('/receive', (req, res) => {
+router.post('/mo/nexmo', (req, res) => {
   const { sender, text } = nexmo.receivingAdapter(req.body);
   distributor.distribute(sender, text)
     .then(tag => {
