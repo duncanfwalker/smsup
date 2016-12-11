@@ -48,10 +48,14 @@ describe('receive from Nexmo', () => {
   });
 
   it('returns tag matched null when there is no content', () => {
-    return distribute('+000', null)
+    [null, undefined].map((content) => {
+      it(`'${content}' content`, () => {
+        return distribute('+000', content)
 
-      .then((result) =>
-        expect(result).toEqual(null)
-      );
-  });
+          .then((result) =>
+            expect(result).toEqual(null)
+          );
+      });
+    });
+  })
 });
