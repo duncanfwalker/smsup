@@ -1,9 +1,10 @@
 import fetch from 'isomorphic-fetch';
+import logger from 'winston';
 
 export function send(sender, recipient, text) {
   const postOptions = createBody({ to: recipient, from: 'NEXMO', text });
 
-  console.log(`POSTing to Nexmo ${JSON.stringify(postOptions)}`);
+  logger.info(`POSTing to Nexmo`, postOptions);
 
   return fetch('https://rest.nexmo.com/sms/json', postOptions).then(checkStatus);
 }
@@ -34,7 +35,7 @@ export function receivingAdapter(body) {
 
 
 function checkStatus(response) {
-  console.log(`Response from Nexmo '${JSON.stringify(response)}'`);
+  logger.info(`Response from Nexmo`, {url: response.url, status: response.status, statusText: response.statusText});
 
   if (response.status >= 400) {
     throw new Error("Bad response from server");

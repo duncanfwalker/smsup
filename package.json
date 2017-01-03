@@ -15,6 +15,10 @@
     "test": "jest ; ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register"
   },
   "dependencies": {
+    "babel-cli": "6.14.0",
+    "babel-core": "6.14.0",
+    "babel-preset-es2015": "6.14.0",
+    "babel-preset-react": "^6.16.0",
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
@@ -23,10 +27,7 @@
     "mongoose": "^4.6.8",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
-    "babel-cli": "6.14.0",
-    "babel-core": "6.14.0",
-    "babel-preset-es2015": "6.14.0",
-    "babel-preset-react": "^6.16.0"
+    "winston": "^2.3.0"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
