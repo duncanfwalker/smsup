@@ -57,5 +57,32 @@ describe('receive from Nexmo', () => {
           );
       });
     });
-  })
+  });
+
+  it('sends error message when no group found', () => {
+    const noGroupsFound = (resolve)=> resolve([]);
+
+    groupRepo.find.mockImplementation(() => new Promise(noGroupsFound));
+
+    return distribute('+000', 'without tag at start')
+
+      .then(() =>
+        expect(nexmo.send.mock.calls.map(args => args[2])).toEqual(
+          ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
+      );
+  });
+
+  it('sends error message when empty group found', () => {
+    const emptyGroupFound = (resolve)=> resolve([{ tag: 'someTag', phoneNumbers: [] }]);
+
+    groupRepo.find.mockImplementation(() => new Promise(emptyGroupFound));
+
+    return distribute('+000', 'without tag at start')
+
+      .then(() =>
+        expect(nexmo.send.mock.calls.map(args => args[2])).toEqual(
+          ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
+      );
+  });
+
 });

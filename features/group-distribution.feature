@@ -12,3 +12,7 @@ Feature: As an administrator
     When phone number A sends an SMS to SMSUP with content 'accleaders hi everyone in the accleaders group'
     Then phone number B receives an SMS with the content 'accleaders hi everyone in the accleaders group'
     And phone number A received 0 messages
+
+  Scenario: No match
+    When I send an SMS to SMSUP with content 'without any group name as the first word'
+    Then I receive an SMS with the content 'Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group'
