@@ -8,10 +8,14 @@ install:
 - cd client
 - npm install
 - cd ..
+services:
+  - mongodb
+env:
+- MONGODBURI=localhost:27017/smsup
 notifications:
   email:
     on_failure: change
-after_success: npm test
+after_success: npm test ; ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register
 cache:
   directories:
   - node_modules
