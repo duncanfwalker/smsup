@@ -12,7 +12,7 @@
     "client": "babel-node bin/start-client.js",
     "server": "./node_modules/.bin/babel-node ./bin/start-server.js",
     "build": "cd client ; npm run build ; cd ..",
-    "test": "jest"
+    "test": "jest ; ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register"
   },
   "dependencies": {
     "body-parser": "~1.15.2",

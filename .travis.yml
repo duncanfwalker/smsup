@@ -8,6 +8,8 @@ install:
 - cd client
 - npm install
 - cd ..
+- npm install jest-cli
+- touch .env
 services:
   - mongodb
 env:
@@ -15,7 +17,6 @@ env:
 notifications:
   email:
     on_failure: change
-after_success: npm test ; ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register
 cache:
   directories:
   - node_modules
