@@ -9,4 +9,9 @@ defineSupportCode(function ({ Given }) {
     // TODO: do subscription instead of using db directly
     save(groups);
   });
+
+  Given(/^that the '(.*)' group exists$/, (tag) => {
+    save([{ tag, phoneNumbers: [] }]);
+  });
+
 });

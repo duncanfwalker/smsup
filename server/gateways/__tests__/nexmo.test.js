@@ -35,6 +35,17 @@ describe('receive from Nexmo', () => {
     expect(converted).toEqual(standardFormat)
   });
 
+  it('always has text', () => {
+    const minimalNexmoMO = {
+      text: null,
+      'message-timestamp': '2016-07-05 21:46:15',
+    };
+    const converted = receivingAdapter(minimalNexmoMO);
+
+    expect(converted.text).toEqual('')
+  });
+
+
 });
 
 describe('sends to Nexmo', () => {

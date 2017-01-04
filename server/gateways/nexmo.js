@@ -28,7 +28,7 @@ export function receivingAdapter(body) {
     sent: nexmoDate ? nexmoDate.replace(/ /g, "T").concat("Z") : new Date().toISOString(),
     gateway: 'nexmo',
     id: body.messageId,
-    text: body.text,
+    text: (body.text || ''),
     sender: body.msisdn,
   };
 }

@@ -24,8 +24,13 @@ function list() {
   return new Promise((resolve) => Group.find({}, (err, groups) => resolve(groups)).select('tag phoneNumbers'));
 }
 
+function addToGroup(tag, phoneNumber) {
+  return new Promise((resolve) => Group.update( { tag }, { $push: { phoneNumbers: phoneNumber } }, resolve))
+}
+
 module.exports = {
   find,
   save,
   list,
+  addToGroup,
 };
