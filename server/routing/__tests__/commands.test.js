@@ -19,7 +19,7 @@ describe('Mobile originated message parsing', () => {
   });
 
   it('when no command is found distribute', () => {
-    return process('none command word', { text: 'groupA', sender: 'sender' })
+    return process('none command word', { text: 'groupA', sender: 'sender' }, [])
 
       .then(() =>
         expect(distributor.distribute).toBeCalledWith('sender', 'groupA')

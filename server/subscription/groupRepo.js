@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODBURI);
 
@@ -7,10 +8,20 @@ const Group = mongoose.model('Group', new mongoose.Schema({
   phoneNumbers: [String],
 }));
 
+/**
+ *
+ * @param tag
+ * @return {Promise}
+ */
 function find(tag) {
   return new Promise((resolve) => Group.find({ tag }, (err, groups) => resolve(groups)).select('tag phoneNumbers'));
 }
 
+/**
+ *
+ * @param groups
+ * @return {Promise.<>}
+ */
 function save(groups) {
   return Promise.all(
     groups.map(
@@ -20,10 +31,20 @@ function save(groups) {
     ));
 }
 
+/**
+ *
+ * @return {Promise}
+ */
 function list() {
   return new Promise((resolve) => Group.find({}, (err, groups) => resolve(groups)).select('tag phoneNumbers'));
 }
 
+/**
+ *
+ * @param tag
+ * @param phoneNumber
+ * @return {Promise}
+ */
 function addToGroup(tag, phoneNumber) {
   return new Promise((resolve) => Group.update( { tag }, { $push: { phoneNumbers: phoneNumber } }, resolve))
 }

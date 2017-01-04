@@ -1,12 +1,35 @@
 import fetch from 'isomorphic-fetch';
 import logger from 'winston';
 
+/**
+ *
+ * @param {string} sender
+ * @param {string} recipient
+ * @param {string} text
+ * @return {*}
+ */
 export function send(sender, recipient, text) {
   const postOptions = createBody({ to: recipient, from: 'NEXMO', text });
 
   logger.info(`POSTing to Nexmo`, postOptions);
 
   return fetch('https://rest.nexmo.com/sms/json', postOptions).then(checkStatus);
+}
+
+/**
+ *
+ * @param body
+ * @return {...MobileOriginated}
+ */
+export function receivingAdapter(body) {
+  var nexmoDate = body['message-timestamp'];
+  return {
+    sent: nexmoDate ? nexmoDate.replace(/ /g, "T").concat("Z") : new Date().toISOString(),
+    gateway: 'nexmo',
+    gatewayId: body.messageId,
+    text: (body.text || ''),
+    sender: body.msisdn,
+  };
 }
 
 function createBody(messageSpecific) {
@@ -21,18 +44,6 @@ function createBody(messageSpecific) {
     body: JSON.stringify(Object.assign({}, messageSpecific, authentication)),
   };
 }
-
-export function receivingAdapter(body) {
-  var nexmoDate = body['message-timestamp'];
-  return {
-    sent: nexmoDate ? nexmoDate.replace(/ /g, "T").concat("Z") : new Date().toISOString(),
-    gateway: 'nexmo',
-    id: body.messageId,
-    text: (body.text || ''),
-    sender: body.msisdn,
-  };
-}
-
 
 function checkStatus(response) {
   logger.info(`Response from Nexmo`, {url: response.url, status: response.status, statusText: response.statusText});

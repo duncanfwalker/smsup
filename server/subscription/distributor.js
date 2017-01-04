@@ -2,6 +2,13 @@ import groupRepo from './groupRepo';
 import nexmo from '../gateways/nexmo';
 import DistributionError from './distribution-error';
 
+
+/**
+ *
+ * @param {string} sender
+ * @param {string} content
+ * @return {Promise.<>}
+ */
 export function distribute(sender, content) {
   if(typeof content !== 'string' ) return Promise.resolve(null);
 

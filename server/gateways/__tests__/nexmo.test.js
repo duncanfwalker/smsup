@@ -28,7 +28,7 @@ describe('receive from Nexmo', () => {
     var standardFormat = {
       sent: '2016-07-05T21:46:15Z',
       gateway: 'nexmo',
-      id: '02000000E68951D8',
+      gatewayId: '02000000E68951D8',
       text: 'Hello7',
       sender: '441632960960'
     };
