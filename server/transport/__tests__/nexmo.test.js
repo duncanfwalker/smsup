@@ -9,7 +9,7 @@ jest.mock('isomorphic-fetch', () => {
   }));
 });
 import fetch from 'isomorphic-fetch';
-import { receivingAdapter, send } from '../nexmo';
+import { routeSetup, send } from '../gateways/nexmo';
 
 describe('receive from Nexmo', () => {
   it('converts to our message format', () => {
@@ -22,7 +22,7 @@ describe('receive from Nexmo', () => {
       keyword: 'HELLO7',
       'message-timestamp': '2016-07-05 21:46:15',
     };
-    const converted = receivingAdapter(nexmoMO);
+    const converted = routeSetup.receivingAdapter(nexmoMO);
 
 
     var standardFormat = {
@@ -40,7 +40,7 @@ describe('receive from Nexmo', () => {
       text: null,
       'message-timestamp': '2016-07-05 21:46:15',
     };
-    const converted = receivingAdapter(minimalNexmoMO);
+    const converted = routeSetup.receivingAdapter(minimalNexmoMO);
 
     expect(converted.text).toEqual('')
   });

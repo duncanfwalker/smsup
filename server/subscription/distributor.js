@@ -1,7 +1,6 @@
 import groupRepo from './groupRepo';
-import nexmo from '../gateways/nexmo';
+import {send} from '../transport/transport';
 import DistributionError from './distribution-error';
-
 
 /**
  *
@@ -16,12 +15,12 @@ export function distribute(sender, content) {
     .then(({ phoneNumbers, tag }) => {
       phoneNumbers
         .filter(recipient => recipient !== sender)
-        .map(recipient => nexmo.send(recipient, content));
+        .map(recipient => send(recipient, content));
       return tag;
     })
 
     .catch(error => {
-      nexmo.send(sender, `Sorry, you send a message to '${error.tag}' but no group with name exists. Start your message with name of a group`);
+      send(sender, `Sorry, you send a message to '${error.tag}' but no group with name exists. Start your message with name of a group`);
     });
 }
 

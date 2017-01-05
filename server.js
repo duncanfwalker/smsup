@@ -5,11 +5,11 @@ var favicon = require('serve-favicon');
 var httpLogger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var api = require('./server/api');
 var app = express();
-import winston from 'winston';
-import { GROUPS_PATH } from './client/src/admin/storage';
+var winston  = require('winston');
 const groupAdmin = require('./server/subscription/groupRepo');
+var transport = require('./server/transport/transport');
+import { GROUPS_PATH } from './client/src/admin/storage';
 
 if(process.env.LOG_LEVEL) {
   winston.level = process.env.LOG_LEVEL;
@@ -36,7 +36,7 @@ app.put(GROUPS_PATH, (req, res) => {
     .catch(() => res.json({ status: 'bad' }));
 });
 
-app.use('/api', api);
+app.use('/api', transport.receiveRoute());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

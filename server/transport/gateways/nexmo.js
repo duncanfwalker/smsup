@@ -1,6 +1,12 @@
 import fetch from 'isomorphic-fetch';
 import logger from 'winston';
 
+export const routeSetup = {
+  path: '/mo/nexmo',
+  method: 'post',
+  receivingAdapter
+};
+
 /**
  *
  * @param {string} recipient
@@ -20,7 +26,7 @@ export function send(recipient, text) {
  * @param body
  * @return {...MobileOriginated|*}
  */
-export function receivingAdapter(body) {
+function receivingAdapter(body) {
   var nexmoDate = body['message-timestamp'];
   return {
     sent: nexmoDate ? nexmoDate.replace(/ /g, "T").concat("Z") : new Date().toISOString(),
