@@ -41,4 +41,16 @@ describe('Mobile originated message parsing', () => {
     expect(processJoin).toThrow(InvalidCommandError);
   });
 
+  it('auto replies for join', () => {
+    return process('join', { text: 'groupA unused', sender: 'sender' }, ['groupA', 'unused'])
+
+      .then(({autoReply}) => expect(autoReply).toEqual('You have joined the groupA group. The terms of use are ....'));
+  });
+
+  it('auto replies for join', () => {
+    return process('none command word', { text: 'groupA', sender: 'sender' }, [])
+
+      .then(({autoReply}) => expect(autoReply).toBeUndefined());
+  });
+
 });

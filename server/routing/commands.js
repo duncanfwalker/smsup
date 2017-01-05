@@ -12,7 +12,7 @@ import InvalidCommandError from './invalid-command-error';
 export function process(keyword, mo, words) {
   const command = commands[keyword];
   if(command) return command(mo, words);
-  else return distribute(mo.sender, mo.text);
+  else return distribute(mo.sender, mo.text).then(() => ({}));
 }
 
 const commands = {
@@ -20,6 +20,9 @@ const commands = {
     const groupName = words[0];
     if(!groupName) throw new InvalidCommandError("No group name specified");
     return groupRepo.addToGroup(groupName,mo.sender)
+      .then(() => ({
+        autoReply: `You have joined the ${groupName} group. The terms of use are ....`
+      }))
   },
 };
 
