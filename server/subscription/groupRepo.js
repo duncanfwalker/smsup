@@ -49,9 +49,20 @@ function addToGroup(tag, phoneNumber) {
   return new Promise((resolve) => Group.update( { tag }, { $push: { phoneNumbers: phoneNumber } }, resolve))
 }
 
+/**
+ *
+ * @param tag
+ * @param phoneNumber
+ * @return {Promise}
+ */
+function removeFromGroup(tag, phoneNumber) {
+  return new Promise((resolve) => Group.update( { tag }, { $pull: { phoneNumbers: phoneNumber } }, resolve))
+}
+
 module.exports = {
   find,
   save,
   list,
   addToGroup,
+  removeFromGroup
 };

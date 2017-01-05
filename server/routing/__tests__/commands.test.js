@@ -1,5 +1,6 @@
 jest.mock('../../subscription/groupRepo', () => ({
-  addToGroup: jest.fn(() => new Promise((r) => r()))
+  addToGroup: jest.fn(() => new Promise((r) => r())),
+  removeFromGroup: jest.fn(() => new Promise((r) => r()))
 }));
 jest.mock('../../subscription/distributor', () => ({
   distribute: jest.fn(() => new Promise((r) => r()))
@@ -16,6 +17,20 @@ describe('Mobile originated message parsing', () => {
       .then(() =>
         expect(groupRepo.addToGroup).toBeCalledWith('groupA', 'sender')
       );
+  });
+
+  it('takes command name from the first word payload from second', () => {
+    return process('leave', { text: 'groupA', sender: 'sender' }, ['groupA'])
+
+      .then(() =>
+        expect(groupRepo.removeFromGroup).toBeCalledWith('groupA', 'sender')
+      );
+  });
+
+  it('auto replies for join', () => {
+    return process('leave', { text: 'groupA', sender: 'sender' }, ['groupA'])
+
+      .then(({autoReply}) => expect(autoReply).toEqual('You have left the groupA group.'));
   });
 
   it('when no command is found distribute', () => {
