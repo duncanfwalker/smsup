@@ -54,6 +54,7 @@ describe('sends to Nexmo', () => {
     originalEnv = process.env;
     process.env.NEXMO_API_KEY = 'key';
     process.env.NEXMO_API_SECRET = 'secret'
+    process.env.MT_SENDER = 'NEXMO';
   });
   afterEach(() => {
     process.env = originalEnv;
@@ -70,11 +71,10 @@ describe('sends to Nexmo', () => {
   });
 
   it('maps fields', () => {
-    var sender = '+5376';
     var recipient = '+7301373';
     var text = 'body';
 
-    send(sender, recipient, text);
+    send(recipient, text);
 
     expect(fetch.mock.calls[0][1]).toEqual({
       body: `{"to":"${recipient}","from":"NEXMO","text":"${text}","api_key":"key","api_secret":"secret"}`,
@@ -85,7 +85,7 @@ describe('sends to Nexmo', () => {
 
 
   it('returns promise', () => {
-    return send('sender', 'recipient', 'text')
+    return send('recipient', 'text')
       .then(response => expect(response).toEqual({ 'response': 'value' }));
   });
 
@@ -95,7 +95,7 @@ describe('sends to Nexmo', () => {
       return jest.fn(() => new Promise(resolveWithBadResponse));
     });
 
-    return send('sender', 'recipient', 'text')
+    return send('recipient', 'text')
 
       .catch((e) => {
         expect(e).toEqual(new Error("Bad response from server"));

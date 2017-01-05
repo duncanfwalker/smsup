@@ -3,13 +3,12 @@ import logger from 'winston';
 
 /**
  *
- * @param {string} sender
  * @param {string} recipient
  * @param {string} text
  * @return {*}
  */
-export function send(sender, recipient, text) {
-  const postOptions = createBody({ to: recipient, from: 'NEXMO', text });
+export function send(recipient, text) {
+  const postOptions = createBody({ to: recipient, from: process.env.MT_SENDER, text });
 
   logger.info(`POSTing to Nexmo`, postOptions);
 
@@ -19,7 +18,7 @@ export function send(sender, recipient, text) {
 /**
  *
  * @param body
- * @return {...MobileOriginated}
+ * @return {...MobileOriginated|*}
  */
 export function receivingAdapter(body) {
   var nexmoDate = body['message-timestamp'];

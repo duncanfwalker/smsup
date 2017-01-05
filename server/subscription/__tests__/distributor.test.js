@@ -18,7 +18,7 @@ describe('receive from Nexmo', () => {
     return distribute('+000', 'someTag Content of message')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(['+111', '+222'])
+        expect(nexmo.send.mock.calls.map(args => args[0])).toEqual(['+111', '+222'])
       );
   });
   it('excludes sender', () => {
@@ -30,7 +30,7 @@ describe('receive from Nexmo', () => {
     return distribute(sender, 'someTag Content of message')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(['+111'])
+        expect(nexmo.send.mock.calls.map(args => args[0])).toEqual(['+111'])
       );
   });
 
@@ -43,7 +43,7 @@ describe('receive from Nexmo', () => {
     return distribute(sender, 'someTag Content of message')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(['+111'])
+        expect(nexmo.send.mock.calls.map(args => args[0])).toEqual(['+111'])
       );
   });
 
@@ -67,7 +67,7 @@ describe('receive from Nexmo', () => {
     return distribute('+000', 'without tag at start')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[2])).toEqual(
+        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(
           ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
       );
   });
@@ -80,7 +80,7 @@ describe('receive from Nexmo', () => {
     return distribute('+000', 'without tag at start')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[2])).toEqual(
+        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(
           ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
       );
   });

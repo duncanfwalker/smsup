@@ -9,7 +9,7 @@ import logger from 'winston';
 router.post('/mo/nexmo', (req, res) => {
   const mo = nexmo.receivingAdapter(req.body);
 
-  const sendAutoReply = (text) => nexmo.send(process.env.MT_SENDER, mo.sender, text); // gateway
+  const sendAutoReply = (text) => nexmo.send(mo.sender, text);
   const responseToGateway = (result) => {
     res.json({});
     return result;
@@ -19,7 +19,7 @@ router.post('/mo/nexmo', (req, res) => {
     .then(responseToGateway)
     .then(result => {
       if(result.autoReply !== undefined)
-        sendAutoReply(result.autoReply)
+        sendAutoReply(result.autoReply);
       return result;
     })
     .catch(InvalidCommandError, error => sendAutoReply(error.message))

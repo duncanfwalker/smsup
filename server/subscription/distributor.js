@@ -16,12 +16,12 @@ export function distribute(sender, content) {
     .then(({ phoneNumbers, tag }) => {
       phoneNumbers
         .filter(recipient => recipient !== sender)
-        .map(recipient => nexmo.send(sender, recipient, content));
+        .map(recipient => nexmo.send(recipient, content));
       return tag;
     })
 
     .catch(error => {
-      nexmo.send(sender, sender, `Sorry, you send a message to '${error.tag}' but no group with name exists. Start your message with name of a group`);
+      nexmo.send(sender, `Sorry, you send a message to '${error.tag}' but no group with name exists. Start your message with name of a group`);
     });
 }
 
