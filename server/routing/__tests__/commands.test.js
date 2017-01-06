@@ -12,7 +12,7 @@ import InvalidCommandError from '../invalid-command-error';
 
 describe('Mobile originated message parsing', () => {
   it('takes command name from the first word payload from second', () => {
-    return process('join', { text: 'groupA', sender: 'sender' }, ['groupA'])
+    return process({ type: 'join', groupName:'groupA', sender:'sender'})
 
       .then(() =>
         expect(groupRepo.addToGroup).toBeCalledWith('groupA', 'sender')
@@ -20,52 +20,52 @@ describe('Mobile originated message parsing', () => {
   });
 
   it('takes command name from the first word payload from second', () => {
-    return process('leave', { text: 'groupA', sender: 'sender' }, ['groupA'])
+    return process({ type: 'leave', groupName:'groupA', sender:'sender'})
 
       .then(() =>
         expect(groupRepo.removeFromGroup).toBeCalledWith('groupA', 'sender')
       );
   });
 
-  it('auto replies for join', () => {
-    return process('leave', { text: 'groupA', sender: 'sender' }, ['groupA'])
-
-      .then(({autoReply}) => expect(autoReply).toEqual('You have left the groupA group.'));
-  });
-
   it('when no command is found distribute', () => {
-    return process('none command word', { text: 'groupA', sender: 'sender' }, [])
+    return process({ type: 'distribute', groupName:'groupA', sender: 'sender', text: 'groupA none command word' })
 
       .then(() =>
-        expect(distributor.distribute).toBeCalledWith('sender', 'groupA')
-      );
-  });
-  it('ignores further words', () => {
-    return process('join', { text: 'groupA unused', sender: 'sender' }, ['groupA', 'unused'])
-
-      .then(() =>
-        expect(groupRepo.addToGroup).toBeCalledWith('groupA', 'sender')
+        expect(distributor.distribute).toBeCalledWith('sender', 'groupA none command word')
       );
   });
 
   it('errors when join with no group name', () => {
     function processJoin() {
-      process('join', { content: 'join', sender: 'A' }, []);
+      process({ type: 'join',  sender: 'A'  });
     }
 
     expect(processJoin).toThrow(InvalidCommandError);
   });
 
-  it('auto replies for join', () => {
-    return process('join', { text: 'groupA unused', sender: 'sender' }, ['groupA', 'unused'])
+  it('auto replies for leave', () => {
+    return process({ type: 'leave', groupName:'groupA', sender: 'sender' })
 
-      .then(({autoReply}) => expect(autoReply).toEqual('You have joined the groupA group. The terms of use are ....'));
+      .then((result) => expect(result).toEqual({groupName: "groupA"}));
   });
 
   it('auto replies for join', () => {
-    return process('none command word', { text: 'groupA', sender: 'sender' }, [])
+    return process({ type: 'join', groupName:'groupA', sender: 'sender' })
 
-      .then(({autoReply}) => expect(autoReply).toBeUndefined());
+      .then((result) => expect(result).toEqual({groupName: "groupA"}));
+  });
+
+  it('does not auto replies for distribute', () => {
+    return process({ type: 'distribute', groupName:'groupA', sender: 'sender' })
+
+      .then((result) => expect(result).toEqual({}));
+  });
+
+  it('errors on an unknown command', () => {
+    function processUnknownCommand() {
+      process({ type: 'unknownCommand', groupName:'groupA', sender: 'sender' })
+    }
+    expect(processUnknownCommand).toThrow();
   });
 
 });

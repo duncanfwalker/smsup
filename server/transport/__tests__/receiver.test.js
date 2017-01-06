@@ -13,7 +13,7 @@ describe('receiver', () => {
     send.mockClear();
   });
   it('sends auto reply', () => {
-    const result = { autoReply: 'thanks' };
+    const result =  'thanks' ;
     route.mockReturnValue(new Promise((r)=> r(result)));
 
     return receive({}, passOnResult)
@@ -22,7 +22,7 @@ describe('receiver', () => {
   });
 
   it('sends auto reply', () => {
-    const result = {};
+    const result = undefined;
     route.mockReturnValue(new Promise((r)=> r(result)));
 
 
