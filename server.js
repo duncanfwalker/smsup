@@ -16,7 +16,12 @@ if(process.env.LOG_LEVEL) {
 }
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(httpLogger('dev'));
+app.use(httpLogger("dev",{ "stream": {
+  write(message, encoding){
+    winston.info(message);
+  }
+}}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
