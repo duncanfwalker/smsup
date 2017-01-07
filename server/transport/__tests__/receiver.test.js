@@ -1,13 +1,12 @@
 jest.mock('../gatewayMiddleware', () => ({ createReceiveRoute: jest.fn() }));
-jest.mock('../transport', () => ({ send: jest.fn() }));
 jest.mock('../../routing/message-router', () => ({ route: jest.fn() }));
-import { send } from '../transport';
-import { route } from '../../routing/message-router';
-import { receive } from '../receiver';
-import InvalidCommandError from '../../routing/invalid-command-error';
+const { route } = require('../../routing/message-router');
+const receive  = require('../receiver');
+const InvalidCommandError = require('../../routing/invalid-command-error');
 
 describe('receiver', () => {
   const passOnResult = result => result;
+  const send= jest.fn();
   beforeEach(() => {
     route.mockClear();
     send.mockClear();
@@ -16,7 +15,7 @@ describe('receiver', () => {
     const result =  'thanks' ;
     route.mockReturnValue(new Promise((r)=> r(result)));
 
-    return receive({}, passOnResult)
+    return receive(send)({}, passOnResult)
 
       .then(() => expect(send).toBeCalledWith(undefined, 'thanks'))
   });
@@ -26,7 +25,7 @@ describe('receiver', () => {
     route.mockReturnValue(new Promise((r)=> r(result)));
 
 
-    return receive({}, passOnResult)
+    return receive(send)({}, passOnResult)
 
       .then(() => expect(send).toHaveBeenCalledTimes(0))
   });
@@ -37,7 +36,7 @@ describe('receiver', () => {
     route.mockReturnValue(new Promise((r)=> r()));
     const throwsError = () => {throw new InvalidCommandError('message')};
 
-    return receive({}, throwsError)
+    return receive(send)({}, throwsError)
 
       .then(() => expect(send).toBeCalledWith(undefined, 'message'))
   });

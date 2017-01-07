@@ -1,12 +1,12 @@
-import {receive} from './receiver';
-import { createReceiveRoute } from './gatewayMiddleware';
-import * as nexmo from './gateways/nexmo';
+const { createReceiveRoute } = require( './gatewayMiddleware');
+const nexmo = require( './gateways/nexmo');
 
-export function receiveRoute() {
-  return createReceiveRoute(nexmo.routeSetup,receive)
+function receiveRoute(setup) {
+  return createReceiveRoute(nexmo.routeSetup,setup(send));
 }
 
-export function send(recipient, text) {
-  return nexmo.send(recipient, text)
+function send(recipient, text) {
+  return nexmo.send(recipient, text);
 }
 
+module.exports = { receiveRoute, send };

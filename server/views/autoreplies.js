@@ -7,7 +7,9 @@ const autoReplies = {
   }
 };
 
-export default function autoReply(view, result) {
+function autoReply(view, result) {
   const autoReply = autoReplies[view];
   if(autoReply) return autoReply(result);
 }
+
+module.exports = autoReply;

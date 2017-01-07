@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router(); // eslint-disable-line new-cap
-import logger from 'winston';
+const logger = require('winston');
 /**
  *
  * @return {Promise}
@@ -9,7 +9,7 @@ import logger from 'winston';
  * @param method http method
  * @param receiver
  */
-export function createReceiveRoute({path, receivingAdapter, method}, receiver) {
+function createReceiveRoute({path, receivingAdapter, method}, receiver) {
   router[method](path, (req, res) => {
     const mo = receivingAdapter(req.body);
     receiver(mo,responseToGateway)
@@ -28,3 +28,5 @@ export function createReceiveRoute({path, receivingAdapter, method}, receiver) {
   });
   return router;
 }
+
+module.exports = {createReceiveRoute};

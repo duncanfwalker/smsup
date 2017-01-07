@@ -1,7 +1,7 @@
-import { process } from './commands';
-import aliases from './aliases';
-import InvalidCommandError from '../routing/invalid-command-error';
-import createAutoReply from '../views/autoreplies';
+const {process} = require('./commands');
+const aliases = require('./aliases') ;
+const InvalidCommandError = require('../routing/invalid-command-error');
+const createAutoReply = require('../views/autoreplies');
 
 /**
  * @typedef {Object|*} MobileOriginated message
@@ -14,7 +14,7 @@ import createAutoReply from '../views/autoreplies';
 /**
  * @param {...MobileOriginated} mo message
  */
-export function route(mo) {
+function route(mo) {
   const command = createCommand(mo.text, mo.sender);
   return process(command)
     .then(result => createAutoReply(command.type, result))
@@ -29,3 +29,5 @@ function createCommand(text, sender) {
   }
   return { type: 'distribute', text, groupName: words[0], sender: sender };
 }
+
+module.exports = {route};

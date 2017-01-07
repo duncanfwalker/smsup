@@ -1,6 +1,5 @@
-import { defineSupportCode } from 'cucumber';
-import { expect } from 'chai';
-import {save} from '../../server/subscription/groupRepo';
+const { defineSupportCode } = require('cucumber');
+const {save} = require('../../server/subscription/groupRepo');
 
 defineSupportCode(function ({ Given }) {
   Given(/^that phone numbers (.*) are subscribed to the (.*) group$/, (subscribers, tags) => {

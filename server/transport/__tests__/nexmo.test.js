@@ -8,8 +8,8 @@ jest.mock('isomorphic-fetch', () => {
     )
   }));
 });
-import fetch from 'isomorphic-fetch';
-import { routeSetup, send } from '../gateways/nexmo';
+const fetch = require('isomorphic-fetch');
+const { routeSetup, send } = require('../gateways/nexmo');
 
 describe('receive from Nexmo', () => {
   it('converts to our message format', () => {

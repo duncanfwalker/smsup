@@ -5,10 +5,10 @@ jest.mock('../../subscription/groupRepo', () => ({
 jest.mock('../../subscription/distributor', () => ({
   distribute: jest.fn(() => new Promise((r) => r()))
 }));
-import * as groupRepo from '../../subscription/groupRepo';
-import * as distributor from '../../subscription/distributor';
-import { process } from '../commands';
-import InvalidCommandError from '../invalid-command-error';
+const groupRepo = require('../../subscription/groupRepo');
+const distributor = require('../../subscription/distributor');
+const { process } = require('../commands');
+const InvalidCommandError = require('../invalid-command-error');
 
 describe('Mobile originated message parsing', () => {
   it('takes command name from the first word payload from second', () => {

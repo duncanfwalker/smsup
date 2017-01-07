@@ -1,2 +1,7 @@
+function InvalidCommandError(message) {
+  this.message = message;
+}
 
-export default class InvalidCommandError {}
+InvalidCommandError.prototype = new Error();
+
+module.exports = InvalidCommandError;

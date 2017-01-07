@@ -7,9 +7,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var winston  = require('winston');
+const setupMoResponder = require( './server/transport/receiver');
+const transport = require('./server/transport/transport');
 const groupAdmin = require('./server/subscription/groupRepo');
-var transport = require('./server/transport/transport');
-import { GROUPS_PATH } from './client/src/admin/storage';
+const  GROUPS_PATH = '/group';
 
 if(process.env.LOG_LEVEL) {
   winston.level = process.env.LOG_LEVEL;
@@ -41,7 +42,7 @@ app.put(GROUPS_PATH, (req, res) => {
     .catch(() => res.json({ status: 'bad' }));
 });
 
-app.use('/api', transport.receiveRoute());
+app.use('/api', transport.receiveRoute(setupMoResponder));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

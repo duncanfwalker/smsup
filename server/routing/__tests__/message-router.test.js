@@ -4,8 +4,8 @@ jest.mock('../commands', () => ({
 jest.mock('../aliases', () => ({
   join: { type: 'join' }
 }));
-import { route } from '../message-router';
-import { process } from '../commands';
+const { route } = require('../message-router');
+const { process } = require('../commands');
 
 describe('Mobile originated message parsing', () => {
   beforeEach(() => {

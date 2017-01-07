@@ -1,8 +1,8 @@
-import { defineSupportCode } from 'cucumber';
-import request from 'supertest';
-import app from '../../server';
-import nock from 'nock';
-import {expect} from 'chai';
+const { defineSupportCode } = require('cucumber');
+const request = require('supertest');
+const app = require('../../server');
+const nock = require('nock');
+const {expect} = require('chai');
 
 defineSupportCode(function ({ Given, When, Then, Before, After }) {
   let mtRequests = [];

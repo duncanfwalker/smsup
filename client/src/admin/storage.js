@@ -1,10 +1,9 @@
 import { transformers } from 'redux-api';
 import { GROUP_UPDATED } from './constants';
 
-export const GROUPS_PATH = '/group';
 
 const groups = {
-  url: GROUPS_PATH,
+  url: '/group',
   crud: true,
   transformer: transformers.array,
   options: {

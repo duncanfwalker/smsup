@@ -5,4 +5,4 @@ function DistributionError(message, tag) {
 
 DistributionError.prototype = new Error();
 
-export default DistributionError;
+module.exports = DistributionError;

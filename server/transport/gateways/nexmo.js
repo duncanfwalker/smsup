@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-fetch';
-import logger from 'winston';
+const fetch = require('isomorphic-fetch');
+const logger = require('winston');
 
-export const routeSetup = {
+const routeSetup = {
   path: '/mo/nexmo',
   method: 'post',
   receivingAdapter
@@ -13,7 +13,7 @@ export const routeSetup = {
  * @param {string} text
  * @return {*}
  */
-export function send(recipient, text) {
+function send(recipient, text) {
   const postOptions = createBody({ to: recipient, from: process.env.MT_SENDER, text });
 
   logger.info(`POSTing to Nexmo`, postOptions);
@@ -61,4 +61,4 @@ function checkStatus(response) {
 }
 
 
-export default { send, receivingAdapter }
+module.exports = { send, routeSetup };

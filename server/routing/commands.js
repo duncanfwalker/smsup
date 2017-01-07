@@ -1,6 +1,6 @@
-import groupRepo from '../subscription/groupRepo';
-import { distribute } from '../subscription/distributor';
-import InvalidCommandError from './invalid-command-error';
+const groupRepo = require('../subscription/groupRepo');
+const { distribute } = require('../subscription/distributor');
+const InvalidCommandError = require('./invalid-command-error');
 
 const actions = {
   join({ groupName, sender }) {
@@ -24,10 +24,10 @@ const actions = {
  * @param command
  * @return {Promise}
  */
-export function process(command) {
+function process(command) {
   const action = actions[command.type];
   if (typeof action !== 'function') throw new Error("No action found for command", command);
   return action(command);
 }
 
-export default actions;
+module.exports = {process};

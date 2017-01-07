@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "client": "babel-node bin/start-client.js",
-    "server": "./node_modules/.bin/babel-node ./bin/start-server.js",
+    "client": "babel-node ./bin/start-client.js",
+    "server": "node ./bin/start-server.js",
     "build": "cd client ; npm run build ; cd ..",
     "test": "jest ; ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register"
   },

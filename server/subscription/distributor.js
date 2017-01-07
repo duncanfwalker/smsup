@@ -1,6 +1,6 @@
-import groupRepo from './groupRepo';
-import {send} from '../transport/transport';
-import DistributionError from './distribution-error';
+const groupRepo = require( './groupRepo');
+const {send} = require( '../transport/transport');
+const DistributionError = require( './distribution-error');
 
 /**
  *
@@ -8,7 +8,7 @@ import DistributionError from './distribution-error';
  * @param {string} content
  * @return {Promise.<>}
  */
-export function distribute(sender, content) {
+function distribute(sender, content) {
   if(typeof content !== 'string' ) return Promise.resolve(null);
 
   return findDistributionList(content)
@@ -34,3 +34,5 @@ function findDistributionList(content) {
       return firstMatch;
     });
 }
+
+module.exports = {distribute};

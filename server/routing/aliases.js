@@ -14,6 +14,6 @@ function createDictionary(language, keywords) {
   }, {});
 }
 
-export default Object.keys(input).reduce(function (dictionary, language) {
+module.exports = Object.keys(input).reduce(function (dictionary, language) {
   return Object.assign(dictionary, createDictionary(language, input[language]));
 }, {});
