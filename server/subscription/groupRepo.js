@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 
+Promise.promisifyAll(mongoose);
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODBURI);
 
@@ -15,21 +16,21 @@ const Group = mongoose.model('Group', new mongoose.Schema({
  * @return {Promise}
  */
 function find(tag) {
-  return new Promise((resolve) => Group.find({ tag }, (err, groups) => resolve(groups)).select('tag phoneNumbers'));
+  return Group.find({ tag }).select('tag phoneNumbers');
 }
 
+
+function update({ tag, phoneNumbers }) {
+  return Group.update({ tag }, { tag, phoneNumbers }, { upsert: true })
+    .then(() => ({ tag, phoneNumbers }));
+}
 /**
  *
  * @param groups
  * @return {Promise.<>}
  */
 function save(groups) {
-  return Promise.all(
-    groups.map(
-      ({ tag, phoneNumbers }) => new Promise(
-        (resolve) => Group.update({ tag }, { tag, phoneNumbers }, { upsert: true }, () => resolve({ tag, phoneNumbers }))
-      )
-    ));
+  return Promise.all(groups.map(update));
 }
 
 /**
@@ -37,7 +38,7 @@ function save(groups) {
  * @return {Promise}
  */
 function list() {
-  return new Promise((resolve) => Group.find({}, (err, groups) => resolve(groups)).select('tag phoneNumbers'));
+  return Group.find({}).select('tag phoneNumbers');
 }
 
 /**
@@ -47,7 +48,7 @@ function list() {
  * @return {Promise}
  */
 function addToGroup(tag, phoneNumber) {
-  return new Promise((resolve) => Group.update( { tag }, { $push: { phoneNumbers: phoneNumber } }, resolve))
+  return Group.update({ tag }, { $push: { phoneNumbers: phoneNumber } });
 }
 
 /**
@@ -57,7 +58,7 @@ function addToGroup(tag, phoneNumber) {
  * @return {Promise}
  */
 function removeFromGroup(tag, phoneNumber) {
-  return new Promise((resolve) => Group.update( { tag }, { $pull: { phoneNumbers: phoneNumber } }, resolve))
+  return Group.update({ tag }, { $pull: { phoneNumbers: phoneNumber } });
 }
 
 module.exports = {
@@ -65,5 +66,5 @@ module.exports = {
   save,
   list,
   addToGroup,
-  removeFromGroup
+  removeFromGroup,
 };

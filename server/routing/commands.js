@@ -4,15 +4,15 @@ const InvalidCommandError = require('./invalid-command-error');
 
 const actions = {
   join({ groupName, sender }) {
-    if (!groupName) throw new InvalidCommandError("No group name specified");
+    if (!groupName) throw new InvalidCommandError('No group name specified');
     return groupRepo
       .addToGroup(groupName, sender)
-      .then(() => ({ groupName }))
+      .then(() => ({ groupName }));
   },
   leave({ groupName, sender }) {
     return groupRepo
       .removeFromGroup(groupName, sender)
-      .then(() => ({ groupName }))
+      .then(() => ({ groupName }));
   },
   distribute({ sender, groupName, text }) {
     return distribute(sender, groupName, text);
@@ -26,8 +26,8 @@ const actions = {
  */
 function process(command) {
   const action = actions[command.type];
-  if (typeof action !== 'function') throw new Error("No action found for command", command);
+  if (typeof action !== 'function') throw new Error('No action found for command', command);
   return action(command);
 }
 
-module.exports = {process};
+module.exports = { process };

@@ -37,6 +37,10 @@
     "concurrently": "^3.1.0",
     "cucumber": "^2.0.0-rc.5",
     "dotenv": "^2.0.0",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
     "jest-cli": "^18.1.0",
     "nock": "^9.0.2",
     "supertest": "^2.0.1"
@@ -52,6 +56,13 @@
     }
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "airbnb",
+    "env": {
+      "jest": true,
+      "node": true
+    },
+    "rules": {
+      "arrow-body-style": "off"
+    }
   }
 }

@@ -3,8 +3,9 @@ const translator = require('../helpers/translator');
 
 function autoReply(view, viewModel, options) {
   const helpers = { __: translator(options.language) };
-  const autoReply = autoReplies[view];
-  if (typeof autoReply === 'function') return autoReply(viewModel, helpers);
+  const viewAutoReply = autoReplies[view];
+  if (typeof viewAutoReply === 'function') return viewAutoReply(viewModel, helpers);
+  return undefined;
 }
 
 module.exports = autoReply;

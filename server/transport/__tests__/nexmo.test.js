@@ -1,13 +1,5 @@
-jest.mock('isomorphic-fetch', () => {
-  return jest.fn(() => new Promise((resolve, reject)=> {
-    resolve(
-      {
-        status: 200,
-        json: jest.fn(() => ({ 'response': 'value' }))
-      }
-    )
-  }));
-});
+const mockFetchResolve = { status: 200, json: () => ({ response: 'value' }) };
+jest.mock('isomorphic-fetch', () => jest.fn(() => Promise.resolve(mockFetchResolve)));
 const fetch = require('isomorphic-fetch');
 const { routeSetup, send } = require('../gateways/nexmo');
 
@@ -25,14 +17,14 @@ describe('receive from Nexmo', () => {
     const converted = routeSetup.receivingAdapter(nexmoMO);
 
 
-    var standardFormat = {
+    const standardFormat = {
       sent: '2016-07-05T21:46:15Z',
       gateway: 'nexmo',
       gatewayId: '02000000E68951D8',
       text: 'Hello7',
-      sender: '441632960960'
+      sender: '441632960960',
     };
-    expect(converted).toEqual(standardFormat)
+    expect(converted).toEqual(standardFormat);
   });
 
   it('always has text', () => {
@@ -42,10 +34,8 @@ describe('receive from Nexmo', () => {
     };
     const converted = routeSetup.receivingAdapter(minimalNexmoMO);
 
-    expect(converted.text).toEqual('')
+    expect(converted.text).toEqual('');
   });
-
-
 });
 
 describe('sends to Nexmo', () => {
@@ -53,7 +43,7 @@ describe('sends to Nexmo', () => {
   beforeEach(() => {
     originalEnv = process.env;
     process.env.NEXMO_API_KEY = 'key';
-    process.env.NEXMO_API_SECRET = 'secret'
+    process.env.NEXMO_API_SECRET = 'secret';
     process.env.MT_SENDER = 'NEXMO';
   });
   afterEach(() => {
@@ -66,40 +56,39 @@ describe('sends to Nexmo', () => {
     expect(fetch.mock.calls[0][1]).toMatchObject({
       body: '{"from":"NEXMO","api_key":"key","api_secret":"secret"}',
       headers: { 'Content-Type': 'application/json' },
-      method: 'POST'
+      method: 'POST',
     });
   });
 
   it('maps fields', () => {
-    var recipient = '+7301373';
-    var text = 'body';
+    const recipient = '+7301373';
+    const text = 'body';
 
     send(recipient, text);
 
     expect(fetch.mock.calls[0][1]).toEqual({
       body: `{"to":"${recipient}","from":"NEXMO","text":"${text}","api_key":"key","api_secret":"secret"}`,
       headers: { 'Content-Type': 'application/json' },
-      method: 'POST'
+      method: 'POST',
     });
   });
 
 
   it('returns promise', () => {
     return send('recipient', 'text')
-      .then(response => expect(response).toEqual({ 'response': 'value' }));
+      .then(response => expect(response).toEqual({ response: 'value' }));
   });
 
   it('throws error on bad status response', () => {
     jest.mock('isomorphic-fetch', () => {
-      const resolveWithBadResponse = (resolve) => resolve({ status: 401 });
+      const resolveWithBadResponse = resolve => resolve({ status: 401 });
       return jest.fn(() => new Promise(resolveWithBadResponse));
     });
 
     return send('recipient', 'text')
 
       .catch((e) => {
-        expect(e).toEqual(new Error("Bad response from server"));
+        expect(e).toEqual(new Error('Bad response from server'));
       });
   });
-
 });
