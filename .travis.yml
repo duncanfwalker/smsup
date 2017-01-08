@@ -14,7 +14,7 @@ services:
   - mongodb
 env:
 - MONGODBURI=localhost:27017/smsup
-- SUPPORTED_LOCALES=en,fa
+  SUPPORTED_LOCALES=en,fa
 notifications:
   email:
     on_failure: change
