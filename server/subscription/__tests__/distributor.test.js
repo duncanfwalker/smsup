@@ -1,13 +1,14 @@
-jest.mock('../../transport/gateways/nexmo', () => ({ send: jest.fn()  }));
+jest.mock('../../transport/transport', () => ({ send: jest.fn()  }));
 jest.mock('../groupRepo', () => ({ find: jest.fn(() => new Promise((r) => r())) }));
 
-const nexmo = require('../../transport/gateways/nexmo');
+const transport = require('../../transport/transport');
 const { distribute } = require('../distributor');
 const groupRepo = require('../groupRepo');
+const InvalidCommandError = require('../../routing/invalid-command-error');
 
 describe('receive from Nexmo', () => {
   beforeEach(() => {
-    nexmo.send.mockClear();
+    transport.send.mockClear();
     groupRepo.find.mockClear();
   });
   it('sends message to all group subscribers', () => {
@@ -15,10 +16,12 @@ describe('receive from Nexmo', () => {
 
     groupRepo.find.mockImplementation(() => new Promise(alwaysReturnGroup));
 
-    return distribute('+000', 'someTag Content of message')
+    return distribute('+000', 'someTag', 'someTag Content of message')
 
-      .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[0])).toEqual(['+111', '+222'])
+      .then(() =>{
+        expect(transport.send.mock.calls.length).toEqual(2);
+        expect(transport.send.mock.calls.map(args => args[0])).toEqual(['+111', '+222'])
+      }
       );
   });
   it('excludes sender', () => {
@@ -27,10 +30,10 @@ describe('receive from Nexmo', () => {
 
     groupRepo.find.mockImplementation(() => new Promise(groupWithSendIn));
 
-    return distribute(sender, 'someTag Content of message')
+    return distribute(sender, 'someTag', 'someTag Content of message')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[0])).toEqual(['+111'])
+        expect(transport.send.mock.calls.map(args => args[0])).toEqual(['+111'])
       );
   });
 
@@ -40,17 +43,17 @@ describe('receive from Nexmo', () => {
 
     groupRepo.find.mockImplementation(() => new Promise(groupWithSendIn));
 
-    return distribute(sender, 'someTag Content of message')
+    return distribute(sender, 'someTag', 'someTag Content of message')
 
       .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[0])).toEqual(['+111'])
+        expect(transport.send.mock.calls.map(args => args[0])).toEqual(['+111'])
       );
   });
 
   it('returns tag matched null when there is no content', () => {
     [null, undefined].map((content) => {
       it(`'${content}' content`, () => {
-        return distribute('+000', content)
+        return distribute('+000', content, content)
 
           .then((result) =>
             expect(result).toEqual(null)
@@ -64,12 +67,14 @@ describe('receive from Nexmo', () => {
 
     groupRepo.find.mockImplementation(() => new Promise(noGroupsFound));
 
-    return distribute('+000', 'without tag at start')
+    return distribute('+000', 'without', 'without tag at start')
 
-      .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(
-          ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
-      );
+      .catch(error => expect(error).toEqual(expect.any(InvalidCommandError)));
+
+      // .then(() =>
+      //   expect(transport.send.mock.calls.map(args => args[1])).toEqual(
+      //     ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
+      // );
   });
 
   it('sends error message when empty group found', () => {
@@ -77,12 +82,15 @@ describe('receive from Nexmo', () => {
 
     groupRepo.find.mockImplementation(() => new Promise(emptyGroupFound));
 
-    return distribute('+000', 'without tag at start')
+    return distribute('+000', 'without', 'without tag at start')
 
-      .then(() =>
-        expect(nexmo.send.mock.calls.map(args => args[1])).toEqual(
-          ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
-      );
+      .catch(error => expect(error).toEqual(expect.any(InvalidCommandError)));
+
+
+    // .then(() =>
+      //   expect(transport.send.mock.calls.map(args => args[1])).toEqual(
+      //     ["Sorry, you send a message to 'without' but no group with name exists. Start your message with name of a group"])
+      // );
   });
 
 });

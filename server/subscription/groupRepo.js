@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODBURI);
 
 const Group = mongoose.model('Group', new mongoose.Schema({

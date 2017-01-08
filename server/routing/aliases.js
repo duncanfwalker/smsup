@@ -1,19 +1,16 @@
-// ISO 639-3 language codes
-const input = {
-  'eng': {
-    'leave': 'leave',
-    'join': 'join'
-  }
-};
+const translator = require('../helpers/translator');
 
-function createDictionary(language, keywords) {
-  return Object.keys(keywords).reduce(function (dictionary, type) {
-    const localAlias = keywords[type];
-    dictionary[localAlias] = { language, type };
-    return dictionary;
+function createAliases(types) {
+  // ISO 639-3 language codes
+  const locales = (process.env.SUPPORTED_LOCALES || 'en').split(',');
+
+  return locales.reduce(function (dictionary, language) {
+    const translate = translator(language);
+    types.forEach(function (type) {
+      const localTranslation = translate(type);
+      return dictionary[localTranslation] = { language, type };
+    });
+    return dictionary
   }, {});
 }
-
-module.exports = Object.keys(input).reduce(function (dictionary, language) {
-  return Object.assign(dictionary, createDictionary(language, input[language]));
-}, {});
+module.exports = createAliases;

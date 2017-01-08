@@ -24,20 +24,9 @@ describe('receiver', () => {
     const result = undefined;
     route.mockReturnValue(new Promise((r)=> r(result)));
 
-
     return receive(send)({}, passOnResult)
 
       .then(() => expect(send).toHaveBeenCalledTimes(0))
   });
 
-  // TODO: sort out babel-node error transpiling
-  // https://github.com/loganfsmyth/babel-plugin-transform-builtin-extend
-  xit('sends error reply', () => {
-    route.mockReturnValue(new Promise((r)=> r()));
-    const throwsError = () => {throw new InvalidCommandError('message')};
-
-    return receive(send)({}, throwsError)
-
-      .then(() => expect(send).toBeCalledWith(undefined, 'message'))
-  });
 });

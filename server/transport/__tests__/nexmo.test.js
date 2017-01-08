@@ -63,11 +63,11 @@ describe('sends to Nexmo', () => {
   it('posts to Nexmo', () => {
     send();
     expect(fetch.mock.calls[0][0]).toBe('https://rest.nexmo.com/sms/json');
-    // expect([]).toMatchObject({ TODO: find out why toMatchObject isn't working
-    //   body: '{"api_key":"API_KEY","api_secret":"API_SECRET"}',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   method: 'POST'
-    // });
+    expect(fetch.mock.calls[0][1]).toMatchObject({
+      body: '{"from":"NEXMO","api_key":"key","api_secret":"secret"}',
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST'
+    });
   });
 
   it('maps fields', () => {

@@ -15,7 +15,7 @@ const actions = {
       .then(() => ({ groupName }))
   },
   distribute({ sender, groupName, text }) {
-    return distribute(sender, text).then(() => ({}));
+    return distribute(sender, groupName, text);
   },
 };
 

@@ -1,7 +1,7 @@
 Feature: As an administrator
   I can add users to a group
   In order to test out language/script and malaysian phones
-§  https://trello.com/c/pZxgOgZZ/4-two-fixed-groups
+  https://trello.com/c/pZxgOgZZ/4-two-fixed-groups
 
   Scenario: Non member send
     Given that phone numbers A,B are subscribed to the accleaders group

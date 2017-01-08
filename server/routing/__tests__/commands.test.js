@@ -31,7 +31,7 @@ describe('Mobile originated message parsing', () => {
     return process({ type: 'distribute', groupName:'groupA', sender: 'sender', text: 'groupA none command word' })
 
       .then(() =>
-        expect(distributor.distribute).toBeCalledWith('sender', 'groupA none command word')
+        expect(distributor.distribute).toBeCalledWith('sender', 'groupA', 'groupA none command word')
       );
   });
 
@@ -58,7 +58,7 @@ describe('Mobile originated message parsing', () => {
   it('does not auto replies for distribute', () => {
     return process({ type: 'distribute', groupName:'groupA', sender: 'sender' })
 
-      .then((result) => expect(result).toEqual({}));
+      .then((result) => expect(result).toBeUndefined());
   });
 
   it('errors on an unknown command', () => {
