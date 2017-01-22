@@ -1,7 +1,7 @@
 const mockFetchResolve = { status: 200, json: () => ({ response: 'value' }) };
 jest.mock('isomorphic-fetch', () => jest.fn(() => Promise.resolve(mockFetchResolve)));
 const fetch = require('isomorphic-fetch');
-const { routeSetup, send } = require('../gateways/nexmo');
+const { createMO, send } = require('../gateways/nexmo');
 
 describe('receive from Nexmo', () => {
   it('converts to our message format', () => {
@@ -14,7 +14,7 @@ describe('receive from Nexmo', () => {
       keyword: 'HELLO7',
       'message-timestamp': '2016-07-05 21:46:15',
     };
-    const converted = routeSetup.receivingAdapter(nexmoMO);
+    const converted = createMO(nexmoMO);
 
 
     const standardFormat = {
@@ -32,7 +32,7 @@ describe('receive from Nexmo', () => {
       text: null,
       'message-timestamp': '2016-07-05 21:46:15',
     };
-    const converted = routeSetup.receivingAdapter(minimalNexmoMO);
+    const converted = createMO(minimalNexmoMO);
 
     expect(converted.text).toEqual('');
   });
@@ -76,7 +76,7 @@ describe('sends to Nexmo', () => {
 
   it('returns promise', () => {
     return send('recipient', 'text')
-      .then(response => expect(response).toEqual({ response: 'value' }));
+      .then(response => expect(response).toEqual(true));
   });
 
   it('throws error on bad status response', () => {

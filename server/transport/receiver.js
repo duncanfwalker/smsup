@@ -1,6 +1,6 @@
 const { route } = require('../routing/message-router');
 
-function setupMoResponder(send) {
+function createReceiver(send) {
   return function moResponder(mo, respondToGateway) {
     return route(mo)
       .then(respondToGateway)
@@ -11,4 +11,4 @@ function setupMoResponder(send) {
   };
 }
 
-module.exports = setupMoResponder;
+module.exports = createReceiver;
