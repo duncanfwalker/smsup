@@ -10,6 +10,8 @@ var winston  = require('winston');
 const setupMoResponder = require( './server/transport/receiver');
 const transport = require('./server/transport/transport');
 const groupAdmin = require('./server/subscription/groupRepo');
+const ipfilter = require('express-ipfilter').IpFilter;
+
 const  GROUPS_PATH = '/group';
 
 if(process.env.LOG_LEVEL) {
@@ -42,6 +44,10 @@ app.put(GROUPS_PATH, (req, res) => {
     .catch(() => res.json({ status: 'bad' }));
 });
 
+
+const herokuForwardHeader = 'x-forwarded-for';
+const whitelist = [['127.0.0.1','127.0.0.10'],'174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28'];
+app.use(ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader], exclude: [GROUPS_PATH] }));
 app.use('/api', transport.receiveRoute(setupMoResponder));
 
 // catch 404 and forward to error handler
