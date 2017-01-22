@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var winston  = require('winston');
-const setupMoResponder = require( './server/transport/receiver');
+const createReceiver = require( './server/transport/receiver');
 const transport = require('./server/transport/transport');
 const groupAdmin = require('./server/subscription/groupRepo');
 const ipfilter = require('express-ipfilter').IpFilter;
@@ -48,7 +48,8 @@ const herokuForwardHeader = 'x-forwarded-for';
 const healthCheck = '51.7.198.66';
 const whitelist = [['127.0.0.1','127.0.0.10'],'174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28',healthCheck];
 app.use(ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader], exclude: [GROUPS_PATH] }));
-app.use('/api', transport.receiveRoute(setupMoResponder));
+
+app.use(transport.createReceiveRoutes(createReceiver(transport.send)));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -34,7 +34,7 @@ defineSupportCode(function ({ Given, When, Then, Before, After }) {
 
   function sendMessage(sender, content, done) {
     request(app)
-      .post('/api/mo/nexmo')
+      .post('/api/nexmo/mo')
       .send({ messageId: 'dsfsd', text: content, msisdn: sender, 'message-timestamp': '' })
       .expect('Content-Type', /json/)
       .expect(200, done);

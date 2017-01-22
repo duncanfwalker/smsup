@@ -1,13 +1,32 @@
-const { createReceiveRoute } = require('./gatewayMiddleware');
-const nexmo = require('./gateways/nexmo');
+const gateways = require('./gateways/index');
+const logger = require('winston');
+const { Router } = require('express');
 
+const transport = {
+  /**
+   *
+   * @param recipient
+   * @param text
+   */
+  send(recipient, text) {
+    return gateways[process.env.ACTIVE_GATEWAY].send(recipient, text)
+      .catch(e => logger.error('MT Error', e));
+  },
+  /**
+   *
+   * @param receiver
+   * @return Router
+   */
+  createReceiveRoutes(receiver) {
+    const router = Router();
 
-function send(recipient, text) {
-  return nexmo.send(recipient, text);
-}
+    Object.keys(gateways)
+      .forEach(name => {
+        router.use(gateways[name].createMORoute(receiver))
+      });
 
-function receiveRoute(setup) {
-  return createReceiveRoute(nexmo.routeSetup, setup(send));
-}
+    return router;
+  }
+};
 
-module.exports = { receiveRoute, send };
+module.exports = transport;

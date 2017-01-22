@@ -1,7 +1,8 @@
 const fetch = require('isomorphic-fetch');
 const logger = require('winston');
+const { createReceiveRoute } = require('../gatewayMiddleware');
 
-function createBody(messageSpecific) {
+function createMTBody(messageSpecific) {
   const authentication = {
     api_key: process.env.NEXMO_API_KEY,
     api_secret: process.env.NEXMO_API_SECRET,
@@ -14,28 +15,13 @@ function createBody(messageSpecific) {
   };
 }
 
-function checkStatus(response) {
+function checkMTResponse(response) {
   logger.info('Response from Nexmo', { url: response.url, status: response.status, statusText: response.statusText });
 
   if (response.status >= 400) {
     throw new Error('Bad response from server');
   }
-
-  return response.json();
-}
-
-/**
- *
- * @param {string} recipient
- * @param {string} text
- * @return {*}
- */
-function send(recipient, text) {
-  const postOptions = createBody({ to: recipient, from: process.env.MT_SENDER, text});
-
-  logger.info('POSTing to Nexmo', postOptions);
-
-  return fetch('https://rest.nexmo.com/sms/json', postOptions).then(checkStatus);
+  return true;
 }
 
 /**
@@ -43,7 +29,7 @@ function send(recipient, text) {
  * @param body
  * @return {...MobileOriginated|*}
  */
-function receivingAdapter(body) {
+function createMO(body) {
   const nexmoDate = body['message-timestamp'];
   return {
     sent: nexmoDate ? nexmoDate.replace(/ /g, 'T').concat('Z') : new Date().toISOString(),
@@ -54,10 +40,37 @@ function receivingAdapter(body) {
   };
 }
 
-const routeSetup = {
-  path: '/mo/nexmo',
-  method: 'post',
-  receivingAdapter,
-};
+module.exports = {
+  createMO,
+  /**
+   *
+   * @param {string} recipient
+   * @param {string} text
+   * @return {*}
+   */
+  send(recipient, text) {
+    const postOptions = createMTBody({ to: recipient, from: process.env.MT_SENDER, text });
 
-module.exports = { send, routeSetup };
+    logger.info('POSTing to Nexmo', postOptions);
+
+    return fetch('https://rest.nexmo.com/sms/json', postOptions)
+      .then(checkMTResponse);
+  },
+  /**
+   *
+   * @param receiver
+   * @return Route
+   */
+  createMORoute(receiver) {
+    const routeOptions = {
+      method: 'post',
+      createMO,
+      respondOk: (res) => {
+        res.json({});
+        return res;
+      },
+      name: 'nexmo'
+    };
+    return createReceiveRoute(routeOptions, receiver);
+  }
+};

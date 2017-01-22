@@ -12,8 +12,8 @@ function createDictionary(translate, language, types) {
 }
 
 function createAliases(types) {
-  // ISO 639-3 language codes
-  const locales = (process.env.SUPPORTED_LOCALES || 'en').split(',');
+  // ISO 639-2 language codes
+  const locales = (process.env.SUPPORTED_LOCALES || 'en,fa').split(',');
 
   return locales.reduce((universalDictionary, language) => {
     const translate = translator(language);

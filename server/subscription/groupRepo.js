@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 
-Promise.promisifyAll(mongoose);
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODBURI);
 
