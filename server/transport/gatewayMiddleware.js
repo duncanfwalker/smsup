@@ -13,6 +13,9 @@ const router = express.Router(); // eslint-disable-line new-cap
  */
 function createReceiveRoute({ path, receivingAdapter, method }, receiver) {
   router[method](path, (req, res) => {
+
+    logger.log('info', 'MO headers: %j', req.headers);
+
     function responseToGateway(result) {
       res.json({});
       return result;
