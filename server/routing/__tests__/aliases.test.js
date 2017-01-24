@@ -11,8 +11,8 @@ describe('Mobile originated message parsing', () => {
       {
         leave: { language: 'en', type: 'leave' },
         join: { language: 'en', type: 'join' },
-        'ترک': { language: 'fa', type: 'leave' }, // eslint-disable-line quote-props
-        'پیوستن': { language: 'fa', type: 'join' }, // eslint-disable-line quote-props
+        'خارج': { language: 'fa', type: 'leave' }, // eslint-disable-line quote-props
+        'پيوستن': { language: 'fa', type: 'join' }, // eslint-disable-line quote-props
       },
     );
   });

@@ -10,7 +10,7 @@ describe('receive from Nexmo', () => {
       to: '441632960961',
       messageId: '02000000E68951D8',
       text: 'Hello7',
-      type: 'text',
+      type:"unicode",
       keyword: 'HELLO7',
       'message-timestamp': '2016-07-05 21:46:15',
     };
@@ -54,7 +54,7 @@ describe('sends to Nexmo', () => {
     send();
     expect(fetch.mock.calls[0][0]).toBe('https://rest.nexmo.com/sms/json');
     expect(fetch.mock.calls[0][1]).toMatchObject({
-      body: '{"from":"NEXMO","api_key":"key","api_secret":"secret"}',
+      body: '{"from":"NEXMO","type":"unicode","api_key":"key","api_secret":"secret"}',
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     });
@@ -67,7 +67,7 @@ describe('sends to Nexmo', () => {
     send(recipient, text);
 
     expect(fetch.mock.calls[0][1]).toEqual({
-      body: `{"to":"${recipient}","from":"NEXMO","text":"${text}","api_key":"key","api_secret":"secret"}`,
+      body: `{"to":"${recipient}","from":"NEXMO","text":"${text}","type":"unicode","api_key":"key","api_secret":"secret"}`,
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
     });

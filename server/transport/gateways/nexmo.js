@@ -10,7 +10,7 @@ function createBody(messageSpecific) {
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(Object.assign({}, messageSpecific, authentication)),
+    body: JSON.stringify(Object.assign({}, messageSpecific, {type: 'unicode' }, authentication)),
   };
 }
 
@@ -31,7 +31,7 @@ function checkStatus(response) {
  * @return {*}
  */
 function send(recipient, text) {
-  const postOptions = createBody({ to: recipient, from: process.env.MT_SENDER, text });
+  const postOptions = createBody({ to: recipient, from: process.env.MT_SENDER, text});
 
   logger.info('POSTing to Nexmo', postOptions);
 
