@@ -4,7 +4,7 @@ Feature: Internationalisation
 
   Scenario: Command in local language
     Given that the 'رهبران' group exists
-    When I send an SMS to SMSUP with content 'واردشدن رهبران'
+    When I send an SMS to SMSUP with content 'ورود رهبران'
     Then I receive an SMS with the content 'شما به گروهي به نام رهبران دعوت شده ايد. مراحل استفاده'
 
   Scenario: Non-command word in local language
