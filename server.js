@@ -6,15 +6,18 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var winston  = require('winston');
-const createReceiver = require( './server/transport/receiver');
+const autoReplier = require( './server/transport/autoReplier');
 const transport = require('./server/transport/transport');
 const groupAdmin = require('./server/subscription/groupRepo');
 const ipfilter = require('express-ipfilter').IpFilter;
+const commands = require('./server/commands');
+const { run } = require('./server/routing/command-router');
 
 const  GROUPS_PATH = '/group';
 
 if(process.env.LOG_LEVEL) {
   winston.level = process.env.LOG_LEVEL;
+  console.log(winston.level);
 }
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -29,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, 'client')));
 }
 
 app.get(GROUPS_PATH, (req, res) => {
@@ -49,7 +52,7 @@ const healthCheck = '51.7.198.66';
 const whitelist = [['127.0.0.1','127.0.0.10'],'174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28',healthCheck];
 app.use(ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader], exclude: [GROUPS_PATH] }));
 
-app.use(transport.createReceiveRoutes(createReceiver(transport.send)));
+app.use(transport.createReceiveRoutes(run));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
