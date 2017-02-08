@@ -1,29 +1,28 @@
 jest.mock('../gatewayMiddleware', () => ({ createReceiveRoute: jest.fn() }));
-jest.mock('../../routing/message-router', () => ({ route: jest.fn() }));
-const { route } = require('../../routing/message-router');
-const receive = require('../receiver');
+const autoReplier = require('../autoReplier');
 
 describe('receiver', () => {
   const passOnResult = result => result;
+  const receiver  = jest.fn(() => Promise.resolve());
   const send = jest.fn();
   beforeEach(() => {
-    route.mockClear();
+    receiver.mockClear();
     send.mockClear();
   });
   it('sends auto reply', () => {
     const result = 'thanks';
-    route.mockReturnValue(new Promise(r => r(result)));
+    receiver.mockReturnValue(new Promise(r => r(result)));
 
-    return receive(send)({}, passOnResult)
+    return autoReplier(receiver,send)({}, passOnResult)
 
       .then(() => expect(send).toBeCalledWith(undefined, 'thanks'));
   });
 
   it('sends auto reply', () => {
     const result = undefined;
-    route.mockReturnValue(new Promise(r => r(result)));
+    receiver.mockReturnValue(new Promise(r => r(result)));
 
-    return receive(send)({}, passOnResult)
+    return autoReplier(receiver, send)({}, passOnResult)
 
       .then(() => expect(send).toHaveBeenCalledTimes(0));
   });

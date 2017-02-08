@@ -23,8 +23,7 @@ function createReceiveRoute({ createMO,  method, respondOk, name }, receiver) {
     }
 
     receiver(createMO(req.body, req.query))
-      .then(() => respondOk(res))
-      .catch(handleUnknownError);
+      .then(() => respondOk(res));
   });
   return router;
 }
