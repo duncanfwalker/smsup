@@ -11,10 +11,9 @@ install:
 - npm install jest-cli
 - touch .env
 services:
-  - mongodb
+- mongodb
 env:
-- MONGODBURI=localhost:27017/smsup
-  SUPPORTED_LOCALES=en,fa
+- MONGODBURI=localhost:27017/smsup SUPPORTED_LOCALES=en,fa
 notifications:
   email:
     on_failure: change
@@ -26,17 +25,7 @@ deploy:
   provider: heroku
   skip_cleanup: true
   api_key:
-    secure: mP/XpVzptY5wz82tUcHD7yobZcB8NUXhuca0HXGA/RZQPUiswU2Wlqt0zovOeIEAG74MKZp3gpnCyIXvYPkpiRIJvPxX72cVjCDgMTp9CKK5JQHB2K9hVUOlsOhRWnBGbUx8rrQ4Ry2Qd6sPg42xrqQsk0nUzuEhglzNsR8qTGFLyWgpe2Yu2UPtwCka7lTZJSO+5BC0JBOXV3Gb9V0/5YrcO4i11OkmN14RfN6ulwzqPLXCDftRa3qpm3j10tpBGKBaMbCkXOBvVAfXrcmHI7pLcPPY0D3hyjoxgWNrczJ+JpINQ0DpIcoS2gEcUEZxbqqGA/ZP1B763fVxvW0bmnoZJX3obIh3IgT5hMJvbaeVb5rQdAZX1Gklj9DBAKNIkF1bH/YTM7ycbL4OOlhcw/DoEV1px/qZW2OMQ5Xbt9wLFdE9ycoFs9gqMoLqRozkeu35D7nubgyw0LMQIACDityxnxF/otJw+cjhj+Uu8wAwpUxvUtME2bHdkG/0jwkIw+ANwZYyPEOJvZHmo2mdgBNDYCN7Zhd8fQzKxMri3cPOn4qX0vk6DwO4J671g0XDdws1iMWo5HvySNK9VXlCtj9+gJUgAplXAoMTytL18YpOijLVSY2BwydtqOMdJc3F569ikhrVuPAt5h2YSJXRjapcmeZ44XUThyTEy63UGPw=
+    secure: PWt7jXsxuhMFXs+qdBr1fqwIDeo09KIKUi7zIOACee/EUq1fEt06skKwLSNKAtS2KkF2mKkT0qJG6z7Rege0nPwc+qsn0NOK/VoCQhanq8GkxNNpqULXrK5pcILCsczNjmROkAQYrpuJVWO4noQ2d/SHWclCtjbiOvUIEauiQGgHG50sVHZ5E6TdDexDmEX8+Aj+uJnVZB6mHB20s+aysV+bNwQUtdKVEBALD1sBXXF1DjFYqPyydQW4cfT9bF9To8NgozXPAUD6RiIgXm9ixXsl1iIwvB7X7nu9vTJxuxP86MbkBp/n/xc9Gd1z8mweKbVLfn2kqBHCp+Er5MgS+4EnNodheG4QBN4cd/xj8lYf5afzeiyg9bbPO3ELcZvY3TT/Ckuy5mnV5Szx/pV1yzClxMCmaBUzA6FKiwt7cJn1zNr/1Vrvil9Cf+/l07QbQI5hFozwS7DEI+WMFY8pV60kmfQ36nLV6XmuAFd052Fnf6Om7RwSzT/6aio7KY5V1bsK0hE5d7sPIcOdBgk3VrtP8Jhxl2pvWjVjgOcQLzsXqcapl9r5DZhk/3FAZlAV1t8MC8saJgsY04TJ7ya5VSC2QlNuS+qdTR8uh3jPLg4EiULXWaQZ48pthE6Q5ROLhk2TArnSBvE8Jj/IQl+Bb+ttMITzMInG2WyRIUID5BE=
   app: smsup
   on:
     repo: duncanfwalker/smsup
-branches:
-  except:
-    - /^build-\d/
-
-before_deploy:
-  - git config --global user.email "builds@travis-ci.com"
-  - git config --global user.name "Travis CI"
-  - export GIT_TAG=build-$TRAVIS_BUILD_NUMBER
-  - git tag $GIT_TAG -a -m "Generated tag from TravisCI build $TRAVIS_BUILD_NUMBER"
-  - git push origin $GIT_TAG
