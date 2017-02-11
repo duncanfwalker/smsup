@@ -15,6 +15,7 @@ function createReceiveRoute({ path, receivingAdapter, method }, receiver) {
   router[method](path, (req, res) => {
 
     logger.log('info', 'MO headers: %j', req.headers);
+    logger.log('info', 'MO body: %j', req.body);
 
     function responseToGateway(result) {
       res.json({});
