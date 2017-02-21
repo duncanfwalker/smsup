@@ -1,4 +1,3 @@
-require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -46,7 +45,8 @@ app.put(GROUPS_PATH, (req, res) => {
 
 
 const herokuForwardHeader = 'x-forwarded-for';
-const whitelist = [['127.0.0.1','127.0.0.10'],'174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28'];
+const healthCheck = '51.7.198.66';
+const whitelist = [['127.0.0.1','127.0.0.10'],'174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28',healthCheck];
 app.use(ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader], exclude: [GROUPS_PATH] }));
 app.use('/api', transport.receiveRoute(setupMoResponder));
 
