@@ -17,7 +17,6 @@ describe('receiver', () => {
     delete process.env.ACTIVE_GATEWAY;
   });
   it('sends from active gateway', () => {
-
     send('recipient', 'text');
 
     expect(gateways.nexmo.send).toBeCalledWith('recipient', 'text');

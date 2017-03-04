@@ -1,6 +1,5 @@
 const fetch = require('isomorphic-fetch');
 const logger = require('winston');
-const buffer = require('buffer');
 const querystring = require('querystring');
 const iconv = require('iconv-lite');
 const { createReceiveRoute } = require('../gatewayMiddleware');
@@ -14,15 +13,11 @@ function createQueryString(recipient, text) {
   const query = {
     smstype: 'UTF8',
     msisdn: recipient,
-    body: iconv.encode(`${text}`,'UTF-16BE').toString("hex").toUpperCase(),
+    body: iconv.encode(`${text}`, 'UTF-16BE').toString('hex').toUpperCase(),
     sender: 'MEXCOM',
   };
 
-  let stringify = querystring.stringify(Object.assign(auth, query));
-
-  logger.info(stringify);
-
-  return stringify;
+  return querystring.stringify(Object.assign(auth, query));
 }
 
 function checkMTResponse(response) {
@@ -37,12 +32,13 @@ function checkMTResponse(response) {
 /**
  *
  * @param body
+ * @param queryParams
  * @return {...MobileOriginated|*}
  */
-function createMO(body, queryParams) {
+function createMO(body, queryParams) { /* eslint eqeqeq: "off", curly: "error" */
   const mexcomDate = queryParams.time;
   return {
-    sent: mexcomDate ? mexcomDate.slice(0,10)+'T'+ mexcomDate.slice(10)+'Z' : new Date().toISOString(),
+    sent: mexcomDate ? `${mexcomDate.slice(0, 10)}T${mexcomDate.slice(10)}Z` : new Date().toISOString(),
     gateway: gatewayName,
     gatewayId: queryParams.moid,
     text: queryParams.body ? queryParams.body.replace(/^APPS10 /i, '') : undefined,
@@ -72,7 +68,6 @@ module.exports = {
    * @return Route
    */
   createMORoute(receiver) {
-
     const routeOptions = {
       method: 'get',
       createMO,
@@ -80,8 +75,8 @@ module.exports = {
         res.send('-1');
         return res;
       },
-      name: gatewayName
+      name: gatewayName,
     };
     return createReceiveRoute(routeOptions, receiver);
-  }
+  },
 };

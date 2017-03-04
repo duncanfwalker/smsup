@@ -4,8 +4,8 @@ const path = require('path');
 i18n.configure({
   locales: ['en', 'fa'],
   defaultLocale: 'en',
-  directory: path.join(__dirname + './../locales'),
-  syncFiles: !(process.env.NODE_ENV === 'production')
+  directory: path.resolve(__dirname, './../locales'),
+  syncFiles: !(process.env.NODE_ENV === 'production'),
 });
 
 function translator(locale) {

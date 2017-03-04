@@ -14,7 +14,8 @@
     "build": "cd client ; npm run build ; mkdir -p ../build ; cp -R ./build ../build/client ; cd .. ; ./node_modules/.bin/webpack",
     "server": "node ./build/bundle.js --production",
     "test": "jest && node -r dotenv/config ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register --tags 'not @wip'",
-    "watch": "node $NODE_DEBUG_OPTION -r babel-register ./node_modules/.bin/jest --watch"
+    "unit": "node $NODE_DEBUG_OPTION -r babel-register ./node_modules/.bin/jest --setupTestFrameworkScriptFile ./bin/unit-tests.js",
+    "watch": "node $NODE_DEBUG_OPTION -r babel-register ./node_modules/.bin/jest --setupTestFrameworkScriptFile ./bin/unit-tests.js --watch"
   },
   "dependencies": {
     "babel-cli": "6.14.0",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
+    "babel-eslint": "^7.1.1",
     "babel-jest": "^17.0.2",
     "babel-loader": "^6.3.2",
     "babel-polyfill": "^6.16.0",
@@ -69,6 +71,7 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "parser": "babel-eslint",
     "env": {
       "jest": true,
       "node": true

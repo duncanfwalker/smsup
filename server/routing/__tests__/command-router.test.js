@@ -1,19 +1,19 @@
-jest.mock('../aliases', () => () => ({
-  join: { type: 'join', language: 'en' },
-  'پیوستن': { type: 'join', language: 'fa' }, // eslint-disable-line quote-props
-}));
+jest.mock('../aliases', () => jest.fn());
 jest.mock('../view-render', () => jest.fn());
 const { Command, run, clear } = require('../command-router');
 const InvalidCommandError = require('../invalid-command-error');
 const viewRender = require('../view-render');
+const aliases = require('../aliases');
 
 describe('Mobile originated message parsing', () => {
+  const controllerSpy = jest.fn().mockReturnValue(Promise.resolve());
+  const target = { controllerMethod: controllerSpy, anotherMethod: () => Promise.resolve() };
   describe('route matching', () => {
-    const controllerSpy = jest.fn().mockReturnValue(Promise.resolve());
-    const target = { controllerMethod: controllerSpy, anotherMethod: () => Promise.resolve() };
+    aliases.mockImplementation(word => ([{ locale: 'en', alias: word }]));
     afterEach(() => {
       controllerSpy.mockClear();
       viewRender.mockClear();
+      aliases.mockClear();
       clear();
     });
     it('one word command route to controller', () => {
@@ -30,8 +30,8 @@ describe('Mobile originated message parsing', () => {
 
       return run({ text: 'oneParamKeyword firstMatch' })
         .then(() => {
-          const params = {first: 'firstMatch'};
-          expect(controllerSpy).toBeCalledWith({params}, expect.anything());
+          const params = { first: 'firstMatch' };
+          expect(controllerSpy).toBeCalledWith({ params }, expect.anything());
         });
     });
 
@@ -40,10 +40,10 @@ describe('Mobile originated message parsing', () => {
 
       return run({ text: 'multi firstMatch secondMatch' })
 
-      .then(() => {
-        const params = {first: 'firstMatch', second: 'secondMatch'};
-        expect(controllerSpy).toBeCalledWith({params}, expect.anything());
-      });
+        .then(() => {
+          const params = { first: 'firstMatch', second: 'secondMatch' };
+          expect(controllerSpy).toBeCalledWith({ params }, expect.anything());
+        });
     });
 
     it('handles splat', () => {
@@ -52,15 +52,15 @@ describe('Mobile originated message parsing', () => {
       return run({ text: 'accleaders hi everyone in the accleaders group' })
 
         .then(() => {
-          const params = {groupName: 'accleaders', splat: 'hi everyone in the accleaders group'};
-          expect(controllerSpy).toBeCalledWith({params}, expect.anything());
+          const params = { groupName: 'accleaders', splat: 'hi everyone in the accleaders group' };
+          expect(controllerSpy).toBeCalledWith({ params }, expect.anything());
         });
     });
 
 
     it('passed result to the view', () => {
       Command('commandKeyword')(target, 'controllerMethod');
-      const viewModel = { 'model': 'value' };
+      const viewModel = { model: 'value' };
       controllerSpy.mockReturnValue(Promise.resolve(viewModel));
 
       return run({ text: 'commandKeyword' })
@@ -70,12 +70,13 @@ describe('Mobile originated message parsing', () => {
         });
     });
 
+
     describe('priority order', () => {
       const scenarios = [
-        { methods: ['controllerMethod', 'anotherMethod'], controllerMethodCalled: 1},
-        { methods: ['anotherMethod', 'controllerMethod'], controllerMethodCalled: 0},
+        { methods: ['controllerMethod', 'anotherMethod'], controllerMethodCalled: 1 },
+        { methods: ['anotherMethod', 'controllerMethod'], controllerMethodCalled: 0 },
       ];
-      scenarios.forEach(({methods, controllerMethodCalled}) => {
+      scenarios.forEach(({ methods, controllerMethodCalled }) => {
         it('priorities commands in the order they are written', () => {
           Command('ambiguousKeyword')(target, methods[0]);
           Command('ambiguousKeyword')(target, methods[1]);
@@ -92,9 +93,52 @@ describe('Mobile originated message parsing', () => {
     it('errors on an unknown command', () => {
       expect.assertions(1);
       return run({ text: 'no match' })
-        .catch(error => {
+        .catch((error) => {
           expect(error).toEqual(expect.any(InvalidCommandError));
         });
+    });
+  });
+
+
+  describe('command i18n', () => {
+    beforeEach(() => {
+      viewRender.mockImplementation((viewName, viewModel, options) => options.language);
+      aliases.mockReturnValue([{ locale: 'en', alias: 'leave' }, { locale: 'fa', alias: 'خارج' }]);
+    });
+    afterEach(() => {
+      controllerSpy.mockClear();
+      viewRender.mockClear();
+      aliases.mockClear();
+      clear();
+    });
+    it('routes i18n keyword aliases to controller actions', () => {
+      Command('leave')(target, 'controllerMethod');
+      return Promise.all(
+        [
+          run({ text: 'leave' }),
+
+          run({ text: 'خارج' }),
+        ],
+      )
+
+        .then(() => {
+          expect(controllerSpy).toHaveBeenCalledTimes(2);
+        });
+    });
+
+    const scenarios = [
+      { command: 'leave', language: 'en' },
+      { command: 'خارج', language: 'fa' },
+    ];
+
+    scenarios.forEach(({ command, language }) => {
+      it(`routes i18n keyword aliases to controller actions ${command}`, () => {
+        Command('leave')(target, 'controllerMethod');
+
+        return run({ text: command })
+
+          .then(reply => expect(reply).toEqual(language));
+      });
     });
   });
 });

@@ -1,5 +1,3 @@
-const InvalidCommandError = require('../routing/invalid-command-error');
-
 function autoReplier(router, send) {
   return function moResponder(mo) {
     return router(mo)
@@ -7,8 +5,8 @@ function autoReplier(router, send) {
         if (autoReply !== undefined) send(mo.sender, autoReply);
         return autoReply;
       })
-      .catch(error => {
-        if(error.name === 'InvalidCommandError' ) {
+      .catch((error) => {
+        if (error.name === 'InvalidCommandError') {
           send(mo.sender, error.message);
         }
       });

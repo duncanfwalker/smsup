@@ -2,7 +2,6 @@ Feature: Internationalisation
   As a user
   I can interact with SMS in my right-to-left language
 
-  @wip
   Scenario: Command in local language
     Given that the 'رهبران' group exists
     When I send an SMS to SMSUP with content 'ورود رهبران'
