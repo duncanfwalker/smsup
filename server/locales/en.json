@@ -4,5 +4,9 @@
 	"join": "join",
 	"You have joined the {{groupName}} group. The terms of use are ....": "You have joined the {{groupName}} group. The terms of use are ....",
 	"You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
-	":groupName": ":groupName"
+	"'{{groupName}}' group created.": "'{{groupName}}' group created.",
+	"'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
+	"the {{groupName}} group has been deleted.": "the {{groupName}} group has been deleted.",
+	"create": "create",
+	"delete": "delete"
 }

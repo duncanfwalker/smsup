@@ -18,6 +18,18 @@ const actions = {
       .removeFromGroup(groupName, sender)
       .then(() => ({ groupName }));
   },
+  @Command('create :groupName')
+  create({ params: { groupName } }, { sender }) {
+    return groupRepo
+      .create(groupName, sender)
+      .then(() => ({ groupName }));
+  },
+  @Command('delete :groupName')
+  delete({ params: { groupName } }, { sender }) {
+    return groupRepo
+      .removeFromGroup(groupName, sender)
+      .then(() => ({ groupName }));
+  },
   @Command(':groupName *')
   distribute({ params: { groupName } }, { sender, text }) {
     return distribute(sender, groupName, text);

@@ -3,5 +3,6 @@
 	"You have left the {{groupName}} group.": "شما از گروهي به نام {{groupName}} خارج شده ايد.",
 	"leave": "خارج",
 	"join": "ورود",
-	":groupName": ":groupName"
+	"create": "create",
+	"delete": "delete"
 }

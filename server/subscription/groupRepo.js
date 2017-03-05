@@ -32,6 +32,10 @@ function save(groups) {
   return Promise.all(groups.map(update));
 }
 
+function clearAll() {
+  return Group.remove({});
+}
+
 /**
  *
  * @return {Promise}
@@ -50,6 +54,10 @@ function addToGroup(tag, phoneNumber) {
   return Group.update({ tag }, { $push: { phoneNumbers: phoneNumber } });
 }
 
+function create(tag, phoneNumber) {
+  return Group.create({ tag, phoneNumbers: [phoneNumber] });
+}
+
 /**
  *
  * @param tag
@@ -64,6 +72,8 @@ module.exports = {
   find,
   save,
   list,
+  create,
   addToGroup,
   removeFromGroup,
+  clearAll,
 };
