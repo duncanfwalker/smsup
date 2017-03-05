@@ -11,7 +11,7 @@ function createMTBody(messageSpecific) {
   return {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(Object.assign({}, messageSpecific, {type: 'unicode' }, authentication)),
+    body: JSON.stringify(Object.assign({}, messageSpecific, { type: 'unicode' }, authentication)),
   };
 }
 
@@ -69,8 +69,8 @@ module.exports = {
         res.json({});
         return res;
       },
-      name: 'nexmo'
+      name: 'nexmo',
     };
     return createReceiveRoute(routeOptions, receiver);
-  }
+  },
 };

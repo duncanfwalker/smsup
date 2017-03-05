@@ -1,7 +1,7 @@
 const mockFetchResolve = { status: 200, json: () => ({ response: 'value' }) };
 jest.mock('isomorphic-fetch', () => jest.fn(() => Promise.resolve(mockFetchResolve)));
 const fetch = require('isomorphic-fetch');
-const { createMO, createMORoute, send } = require('../gateways/mexcom');
+const { createMO, send } = require('../gateways/mexcom');
 
 describe('MexCom', () => {
   describe('receive MO', () => {
@@ -15,7 +15,7 @@ describe('MexCom', () => {
         telcoid: '2',
       };
 
-      const mo = createMO({},mexcomMO);
+      const mo = createMO({}, mexcomMO);
 
       expect(mo).toMatchObject({
         sent: '2016-01-01T00:00:01Z',
@@ -59,6 +59,5 @@ describe('MexCom', () => {
       return send('recipient', 'text')
         .then(response => expect(response).toEqual(true));
     });
-
   });
 });

@@ -1,9 +1,9 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
 
+var dotenv = require('dotenv');
+dotenv.config({ silent: true});
 var app = require('../server');
 var debug = require('debug')('smsup:server');
 var http = require('http');

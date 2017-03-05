@@ -25,12 +25,16 @@ defineSupportCode(function ({ Given, When, Then, Before, After }) {
 
 
   Then(/^(?:I|phone numbers? )(.*) received (\d+) messages?$/, (numbers, occurrences) => {
-    expect(countMessagesReceivedBy(numbers)).to.eql(Number(occurrences));
+    expect(countMessagesReceivedBy(numbers)).to.eql(Number(occurrences), details(numbers));
   });
 
   Then(/^(?:I|phone numbers? )(.*) receives? an SMS with the content '(.*)'$/, (numbers, content) => {
-    expect(getNumbersReceiving(content)).to.include.members(numbers.split(','));
+    expect(getNumbersReceiving(content)).to.include.members(numbers.split(','), details(content));
   });
+
+  function details(content) {
+    return `${content} not in ${JSON.stringify(mtRequests)}`;
+  }
 
   function sendMessage(sender, content, done) {
     request(app)

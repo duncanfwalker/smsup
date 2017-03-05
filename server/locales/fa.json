@@ -1,7 +1,7 @@
 {
-    "You have joined the {{groupName}} group. The terms of use are ....": "شما به گروهي به نام {{groupName}} دعوت شده ايد. مراحل استفاده",
+	"You have joined the {{groupName}} group. The terms of use are ....": "شما به گروهي به نام {{groupName}} دعوت شده ايد. مراحل استفاده",
 	"You have left the {{groupName}} group.": "شما از گروهي به نام {{groupName}} خارج شده ايد.",
 	"leave": "خارج",
 	"join": "ورود",
-	"distribute": "distribute"
+	":groupName": ":groupName"
 }
