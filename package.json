@@ -14,6 +14,7 @@
     "build": "cd client ; npm run build ; mkdir -p ../build ; cp -R ./build ../build/client ; cd .. ; ./node_modules/.bin/webpack",
     "server": "node ./build/bundle.js --production",
     "test": "jest && node -r dotenv/config ./node_modules/.bin/cucumber.js --compiler es6:babel-core/register --tags 'not @wip'",
+    "lint": "node_modules/.bin/eslint ./server",
     "unit": "node $NODE_DEBUG_OPTION -r babel-register ./node_modules/.bin/jest --setupTestFrameworkScriptFile ./bin/unit-tests.js",
     "watch": "node $NODE_DEBUG_OPTION -r babel-register ./node_modules/.bin/jest --setupTestFrameworkScriptFile ./bin/unit-tests.js --watch"
   },
@@ -53,6 +54,7 @@
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.10.0",
     "jest-cli": "^18.1.0",
     "nock": "^9.0.2",
     "supertest": "^2.0.1",
