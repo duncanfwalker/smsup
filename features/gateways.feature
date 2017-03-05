@@ -8,5 +8,5 @@ Feature: Gateways
     Given that SMSUP is using the 'mexcom' gateway
     And that the 'any' group exists
     And I join the 'any' group'
-    When phone number A sends an SMS through Mexcom with content 'any hi'
+    When phone number A sends an SMS through Mexcom with content 'APPS10 any hi'
     Then I receive an SMS through 'mexcom'

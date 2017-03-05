@@ -1,23 +1,21 @@
 const { defineSupportCode } = require('cucumber');
 const request = require('supertest');
 const nock = require('nock');
-var decache = require('decache');
-const {expect} = require('chai');
+const { expect } = require('chai');
+const app = require('../../server');
 
-let app;
-
-defineSupportCode(({ Given, When, Then, Before }) => {
+defineSupportCode(({ Given, When, Then, Before, After }) => {
   let mexcomMT = [];
+
   function sendThroughMexcom(sender, content, done) {
-    const options = {msisdn: sender, body: content, time: '', moid: 1, shortcode:'' };
+    const options = { msisdn: sender, body: content, time: '', moid: 1, shortcode: '' };
     request(app)
-      .get('/api/mo/mexcom')
+      .get('/api/mexcom/mo')
       .query(options)
-      .expect('Content-Type', /json/)
       .expect(200, done);
   }
 
-  Before(function () {
+  Before(() => {
     nock('http://bulk.ezlynx.net:7001')
       .persist()
       .get('/BULK/BULKMT.aspx')
@@ -29,14 +27,17 @@ defineSupportCode(({ Given, When, Then, Before }) => {
     mexcomMT = [];
   });
 
+  After(() => {
+    process.env.ACTIVE_GATEWAY = 'nexmo';
+  });
+
   Given(/^that SMSUP is using the '(.*)' gateway$/, (gateway) => {
     process.env.ACTIVE_GATEWAY = gateway;
-    decache('../../server.js');
-    app=require('../../server.js')
+    process.env.MEXCOM_PREMIUM_KEYWORDS = 'APPS10';
   });
 
   Given(/^(.*) join the 'any' group'$/, (phoneNumber, done) => {
-    sendThroughMexcom(phoneNumber, 'join any', done)
+    sendThroughMexcom(phoneNumber, 'join any', done);
   });
 
   When(/^phone number (.*) sends an SMS through Mexcom with content '(.*)'$/, function (sender, content, done) {
@@ -44,6 +45,7 @@ defineSupportCode(({ Given, When, Then, Before }) => {
   });
 
   Then(/^I receive an SMS through 'mexcom'$/, () => {
-    expect(mexcomMT).to.have.lengthOf(1);
+    const anyHiInHex = '0061006E0079002000680069';
+    expect(mexcomMT.map(mt => mt.body)).to.include(anyHiInHex);
   });
 });
