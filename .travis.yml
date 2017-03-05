@@ -15,7 +15,10 @@ install:
 services:
 - mongodb
 env:
-- MONGODBURI=localhost:27017/smsup SUPPORTED_LOCALES=en,fa ACTIVE_GATEWAY=nexmo
+- MONGODBURI=localhost:27017/smsup
+  SUPPORTED_LOCALES=en,fa
+  ACTIVE_GATEWAY=nexmo
+  MEXCOM_PREMIUM_KEYWORDS=APPS10
 notifications:
   email:
     on_failure: change

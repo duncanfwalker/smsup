@@ -25,6 +25,17 @@ describe('MexCom', () => {
         sender: '60123456789',
       });
     });
+
+    ['APPS10', 'apps10', 'Apps10', 'acc', 'src'].forEach((keyword) => {
+      it(`cuts off '${keyword}' keyword`, () => {
+        process.env.MEXCOM_PREMIUM_KEYWORDS = 'APPS10,acc,src';
+        const mexcomMO = { body: `${keyword} Hello7` };
+
+        const mo = createMO({}, mexcomMO);
+
+        expect(mo).toMatchObject({ text: 'Hello7' });
+      });
+    });
   });
 
   describe('send MT', () => {

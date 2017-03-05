@@ -35,13 +35,17 @@ function checkMTResponse(response) {
  * @param queryParams
  * @return {...MobileOriginated|*}
  */
-function createMO(body, queryParams) { /* eslint eqeqeq: "off", curly: "error" */
+function createMO(body, queryParams) {
   const mexcomDate = queryParams.time;
+  const keywords = process.env.MEXCOM_PREMIUM_KEYWORDS.split(',').join('|');
+
+  const keywordPattern = new RegExp(`^(${keywords}) `, 'i');
+
   return {
     sent: mexcomDate ? `${mexcomDate.slice(0, 10)}T${mexcomDate.slice(10)}Z` : new Date().toISOString(),
     gateway: gatewayName,
     gatewayId: queryParams.moid,
-    text: queryParams.body ? queryParams.body.replace(/^APPS10 /i, '') : undefined,
+    text: queryParams.body ? queryParams.body.replace(keywordPattern, '') : undefined,
     sender: queryParams.msisdn,
   };
 }
