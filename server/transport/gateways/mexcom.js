@@ -29,6 +29,22 @@ function checkMTResponse(response) {
   return true;
 }
 
+function couldBeHex(string) {
+  return /[0-9A-F]{6}/.test(string);
+}
+
+function decode(text) {
+  if (couldBeHex(text)) {
+    try {
+      const hexBuffer = new Buffer(text, 'hex');
+      return iconv.decode(hexBuffer, 'UTF-16BE');
+    } catch (e) {
+      logger.info('Could not decode so assumed plain text', text);
+    }
+  }
+  return text;
+}
+
 /**
  *
  * @param body
@@ -37,15 +53,16 @@ function checkMTResponse(response) {
  */
 function createMO(body, queryParams) {
   const mexcomDate = queryParams.time;
+
+  const text = decode(queryParams.body);
+
   const keywords = process.env.MEXCOM_PREMIUM_KEYWORDS.split(',').join('|');
-
   const keywordPattern = new RegExp(`^(${keywords}) `, 'i');
-
   return {
     sent: mexcomDate ? `${mexcomDate.slice(0, 10)}T${mexcomDate.slice(10)}Z` : new Date().toISOString(),
     gateway: gatewayName,
     gatewayId: queryParams.moid,
-    text: queryParams.body ? queryParams.body.replace(keywordPattern, '') : undefined,
+    text: text ? text.replace(keywordPattern, '') : undefined,
     sender: queryParams.msisdn,
   };
 }

@@ -8,7 +8,7 @@ describe('MexCom', () => {
     it('converts to our message format', () => {
       const mexcomMO = {
         msisdn: '60123456789',
-        body: 'APPS10 Hello7',
+        body: 'Hello7',
         time: '2016-01-0100:00:01',
         moid: 'mexcom-id-number',
         shortcode: '60000',
@@ -25,6 +25,23 @@ describe('MexCom', () => {
         sender: '60123456789',
       });
     });
+
+    it('converts character encoding', () => {
+      const mexcomMO = { body: '4F60597D5417FF1F' };
+
+      const mo = createMO({}, mexcomMO);
+
+      expect(mo).toMatchObject({ text: '你好吗？' });
+    });
+
+    it('converts character mixed encoding', () => {
+      const mexcomMO = { body: '0077006F006D0065006E002006330644062706450020062806470020064706450647' };
+
+      const mo = createMO({}, mexcomMO);
+
+      expect(mo).toMatchObject({ text: 'women سلام به همه' });
+    });
+
 
     ['APPS10', 'apps10', 'Apps10', 'acc', 'src'].forEach((keyword) => {
       it(`cuts off '${keyword}' keyword`, () => {
