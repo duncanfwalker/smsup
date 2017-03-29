@@ -1,0 +1,9 @@
+{
+  "You have joined the {{groupName}} group. The terms of use are ....": "Waxaad ku soo biirtay kooxda magaceedu yahay {{groupName}}. SMS Up habka loo isticmaalo waa...",
+  "You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
+  "leave": "tagid",
+  "join": "kusoobiir",
+  "create": "abuuris",
+  "delete": "tirtir"
+}
+

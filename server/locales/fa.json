@@ -3,6 +3,6 @@
 	"You have left the {{groupName}} group.": "شما از گروهي به نام {{groupName}} خارج شده ايد.",
 	"leave": "خارج",
 	"join": "ورود",
-	"create": "create",
-	"delete": "delete"
+	"create": "ساختن",
+	"delete": "حذف كردن"
 }

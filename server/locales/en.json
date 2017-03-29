@@ -8,5 +8,5 @@
 	"'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
 	"the {{groupName}} group has been deleted.": "the {{groupName}} group has been deleted.",
 	"create": "create",
-	"delete": "delete"
+  "delete": "delete"
 }
