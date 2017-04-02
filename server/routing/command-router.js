@@ -83,8 +83,9 @@ function create() {
       return Promise.reject(new InvalidCommandError());
     }
 
-    const options = { language: findLanguage(mo.text, match.route.pattern) };
-    return match.route.action({ params: match.params }, mo)
+    const language = findLanguage(mo.text, match.route.pattern);
+    const options = { language };
+    return match.route.action({ params: match.params, language }, mo)
       .then(viewModel => viewRender(match.route.view, viewModel, options));
   }
 

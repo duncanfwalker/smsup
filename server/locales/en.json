@@ -1,12 +1,16 @@
 {
-	"leave": "leave",
-	"distribute": "distribute",
-	"join": "join",
-	"You have joined the {{groupName}} group. The terms of use are ....": "You have joined the {{groupName}} group. The terms of use are ....",
-	"You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
+  "create": "create",
+  "delete": "delete",
 	"'{{groupName}}' group created.": "'{{groupName}}' group created.",
-	"'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
+  "invite": "invite",
+  "join": "join",
+  "leave": "leave",
+  "Reply \"{{prefix}}join {{groupName}}\" to join.": "Reply \"join {{groupName}}\" to join.",
+  "SMS Up terms of use are.": "SMS Up terms of use are.",
 	"the {{groupName}} group has been deleted.": "the {{groupName}} group has been deleted.",
-	"create": "create",
-  "delete": "delete"
+  "to": "to",
+  "You have been invited to the '{{groupName}}' group.": "You have been invited to the '{{groupName}}' group.",
+  "You have joined the {{groupName}} group.": "You have joined the {{groupName}} group.",
+  "You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
+  "'{{groupName}}' group created. ": "'{{groupName}}' group created. "
 }

@@ -50,7 +50,7 @@ describe('MexCom', () => {
 
         const mo = createMO({}, mexcomMO);
 
-        expect(mo).toMatchObject({ text: 'Hello7' });
+        expect(mo).toMatchObject({ text: 'Hello7', keyword });
       });
     });
   });

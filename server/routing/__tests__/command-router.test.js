@@ -31,7 +31,7 @@ describe('Mobile originated message parsing', () => {
       return run({ text: 'oneParamKeyword firstMatch' })
         .then(() => {
           const params = { first: 'firstMatch' };
-          expect(controllerSpy).toBeCalledWith({ params }, expect.anything());
+          expect(controllerSpy).toBeCalledWith({ params, language: 'en' }, expect.anything());
         });
     });
 
@@ -42,6 +42,17 @@ describe('Mobile originated message parsing', () => {
 
         .then(() => {
           const params = { first: 'firstMatch', second: 'secondMatch' };
+          expect(controllerSpy).toBeCalledWith({ params, language: 'en' }, expect.anything());
+        });
+    });
+
+    xit('handles splat at start', () => {
+      Command('* to :groupName')(target, 'controllerMethod');
+
+      return run({ text: 'hi everyone in the accleaders group accleaders' })
+
+        .then(() => {
+          const params = { groupName: 'accleaders', splat: 'hi everyone in the accleaders group' };
           expect(controllerSpy).toBeCalledWith({ params }, expect.anything());
         });
     });

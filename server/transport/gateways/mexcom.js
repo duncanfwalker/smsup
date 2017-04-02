@@ -58,12 +58,15 @@ function createMO(body, queryParams) {
 
   const keywords = process.env.MEXCOM_PREMIUM_KEYWORDS.split(',').join('|');
   const keywordPattern = new RegExp(`^(${keywords}) `, 'i');
+  const keywordMatch = keywordPattern.exec(text);
+  const keyword = keywordMatch !== null ? keywordMatch[1] : undefined;
   return {
     sent: mexcomDate ? `${mexcomDate.slice(0, 10)}T${mexcomDate.slice(10)}Z` : new Date().toISOString(),
     gateway: gatewayName,
     gatewayId: queryParams.moid,
     text: text ? text.replace(keywordPattern, '') : undefined,
     sender: queryParams.msisdn,
+    keyword,
   };
 }
 
