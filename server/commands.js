@@ -35,9 +35,9 @@ const actions = {
       .then(() => ({ groupName }));
   },
   @Command('delete :groupName')
-  delete({ params: { groupName } }, { sender }) {
+  delete({ params: { groupName } }, {}) {
     return groupRepo
-      .removeFromGroup(groupName, sender)
+      .deleteGroup(groupName)
       .then(() => ({ groupName }));
   },
   @Command('invite *')
