@@ -64,7 +64,7 @@ describe('Mobile originated message parsing', () => {
 
         .then(() => {
           const params = { groupName: 'accleaders', splat: 'hi everyone in the accleaders group' };
-          expect(controllerSpy).toBeCalledWith({ params }, expect.anything());
+          expect(controllerSpy).toBeCalledWith({ language: 'en', params }, expect.anything()); // TODO: use toBeCalledWithMatch
         });
     });
 

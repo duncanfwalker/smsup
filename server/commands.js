@@ -35,7 +35,7 @@ const actions = {
       .then(() => ({ groupName }));
   },
   @Command('delete :groupName')
-  delete({ params: { groupName } }, {}) {
+  delete({ params: { groupName } }, {}) { // eslint-disable-line no-empty-pattern
     return groupRepo
       .deleteGroup(groupName)
       .then(() => ({ groupName }));

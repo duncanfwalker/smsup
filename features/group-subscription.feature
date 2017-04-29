@@ -27,3 +27,4 @@ Feature: As a user
     And phone numbers A,B receive an SMS with the content 'You have been invited to the 'all' group. SMS Up terms of use are. Reply "join all" to join.'
     And phone numbers A sends an SMS to SMSUP with content 'join all'
     Then 'A' is subscribed to the 'all' group
+    And 'B' is not subscribed to the 'all' group

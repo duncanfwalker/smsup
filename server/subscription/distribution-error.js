@@ -1,6 +1,7 @@
-function DistributionError(message, tag) {
-  this.message = message;
-  this.tag = tag;
+function DistributionError(groupName) {
+  this.name = 'DistributionError';
+  this.message = 'Could not distribute';
+  this.groupName = groupName;
 }
 
 DistributionError.prototype = new Error();
