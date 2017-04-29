@@ -1,13 +1,14 @@
 const createAliases = require('./aliases');
 const InvalidCommandError = require('../routing/invalid-command-error');
 const viewRender = require('./view-render');
+const errorHandler = require('./error-handler');
 
 
 function findLanguage(moText, pattern) {
   const moWords = moText.match(/([^\s]*)/gi).filter(token => !['', ' '].includes(token));
   const patternWord = pattern.match(/([^\s]*)/gi).filter(token => !['', ' '].includes(token));
   const aliasOfFirstWord = createAliases(patternWord[0]).find(alias => alias.alias === moWords[0]);
-  return aliasOfFirstWord ? aliasOfFirstWord.locale : undefined;
+  return aliasOfFirstWord ? aliasOfFirstWord.locale : 'en';
 }
 
 function createRegexMatcher(route) {
@@ -86,7 +87,8 @@ function create() {
     const language = findLanguage(mo.text, match.route.pattern);
     const options = { language };
     return match.route.action({ params: match.params, language }, mo)
-      .then(viewModel => viewRender(match.route.view, viewModel, options));
+      .then(viewModel => viewRender(match.route.view, viewModel, options))
+      .catch(error => errorHandler(error, options));
   }
 
   function clear() {

@@ -11,5 +11,8 @@
   "to": "to",
   "You have been invited to the '{{groupName}}' group.": "شما به گروهي به نام(name of the group) دعوت شده ايد",
   "You have joined the {{groupName}} group.": "You have joined the {{groupName}} group.",
-  "You have left the {{groupName}} group.": "شما از گروهي به نام {{groupName}} خارج شده ايد."
+  "You have left the {{groupName}} group.": "شما از گروهي به نام {{groupName}} خارج شده ايد.",
+  "That didn't work, try again": "That didn't work, try again",
+  "Sorry but the '{{groupName}}' group doesn't exist": "Sorry but the '{{groupName}}' group doesn't exist",
+  "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group": "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group"
 }

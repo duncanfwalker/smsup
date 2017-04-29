@@ -21,10 +21,9 @@ Feature: As a admin
     When I send an SMS to SMSUP with content 'create accleaders'
     Then I receive an SMS with the content 'sorry 'accleaders' already exists'
 
-  @wip
   Scenario: Delete non-existent group
     When I send an SMS to SMSUP with content 'delete groupThatDoesntExist'
-    Then I receive an SMS with the content 'sorry 'groupThatDoesntExist' does not exist'
+    Then I receive an SMS with the content 'Sorry but the 'groupThatDoesntExist' group doesn't exist'
 
   @wip
   Scenario: Create conflicts with command keyword

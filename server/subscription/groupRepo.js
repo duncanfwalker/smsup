@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const mongooseDelete = require('mongoose-delete');
+const GroupNotFoundError = require('./group-not-found-error');
 
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODBURI);
@@ -73,7 +74,13 @@ function removeFromGroup(tag, phoneNumber) {
 }
 
 function deleteGroup(tag) {
-  return Group.delete({ tag });
+  return Group.find({ tag }).select('tag phoneNumbers')
+    .then((groups) => {
+      if (groups.length < 1) {
+        throw new GroupNotFoundError(tag);
+      }
+      return Group.delete({ tag });
+    });
 }
 
 module.exports = {
