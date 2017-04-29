@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
+const mongooseDelete = require('mongoose-delete');
 
 mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODBURI);
 
-const Group = mongoose.model('Group', new mongoose.Schema({
+const schema = new mongoose.Schema({
   tag: String,
   phoneNumbers: [String],
-}));
+});
+schema.plugin(mongooseDelete, { overrideMethods: 'all' });
+
+const Group = mongoose.model('Group', schema);
 
 /**
  *
@@ -68,6 +72,10 @@ function removeFromGroup(tag, phoneNumber) {
   return Group.update({ tag }, { $pull: { phoneNumbers: phoneNumber } });
 }
 
+function deleteGroup(tag) {
+  return Group.delete({ tag });
+}
+
 module.exports = {
   find,
   save,
@@ -76,4 +84,5 @@ module.exports = {
   addToGroup,
   removeFromGroup,
   clearAll,
+  deleteGroup,
 };
