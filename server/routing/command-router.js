@@ -3,7 +3,7 @@ const InvalidCommandError = require('../routing/invalid-command-error');
 const viewRender = require('./view-render');
 const errorHandler = require('./error-handler');
 const { runListeners } = require('./command-listener');
-
+const winston = require('winston');
 
 function findLanguage(moText, pattern) {
   const moWords = moText.match(/([^\s]*)/gi).filter(token => !['', ' '].includes(token));
@@ -89,11 +89,15 @@ function create() {
     const options = { language };
     return match.route.action({ params: match.params, language }, mo)
       .then(viewModel => viewRender(match.route.view, viewModel, options))
+      .catch(error => errorHandler(error, options))
       .then((viewModel) => {
-        runListeners(match.route.view, { params: match.params, mo });
+        try {
+          runListeners(match.route.view, { params: match.params, mo });
+        } catch (e) {
+          winston.error('Error in listener', e);
+        }
         return viewModel;
-      })
-      .catch(error => errorHandler(error, options));
+      });
   }
 
   function clear() {

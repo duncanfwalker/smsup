@@ -11,7 +11,8 @@ function on(commandName, action) {
 }
 
 function runListeners(command, event) {
-  findListeners(command).forEach(listener => listener(event));
+  const toRun = [...findListeners(command), ...findListeners(null)];
+  return toRun.forEach(listener => listener(event));
 }
 
 function reset() {
