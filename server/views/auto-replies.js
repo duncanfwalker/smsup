@@ -11,6 +11,7 @@ const autoReplies = {
     viewModel.includeTerms ? __('SMS Up terms of use are.', viewModel) : '',
     __('Reply "{{prefix}}join {{groupName}}" to join.', viewModel),
   ]),
+  notify: (viewModel, { __ }) => __('\'{{groupName}}\' group created. ', viewModel),
 };
 
 module.exports = autoReplies;
