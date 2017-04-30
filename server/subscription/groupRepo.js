@@ -56,7 +56,7 @@ function list() {
  * @return {Promise}
  */
 function addToGroup(tag, phoneNumber) {
-  return Group.update({ tag }, { $push: { phoneNumbers: phoneNumber } });
+  return Group.update({ tag }, { $addToSet: { phoneNumbers: phoneNumber } });
 }
 
 function create(tag, phoneNumber) {

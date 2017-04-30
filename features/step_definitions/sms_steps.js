@@ -54,6 +54,11 @@ defineSupportCode(({ When, Then, Before }) => {
   Then(/^(?:I|phone numbers? )(.*) receives? an SMS with the content '(.*)'$/, (numbers, content) => {
     expect(getNumbersReceiving(content)).to.include.members(numbers.split(','), details(content));
   });
+
+  Then(/^(?:I|phone numbers? )(.*) receives? an SMS with the content '(.*)' '(.*)' times$/, (number, content, times) => {
+    const matchingRequests = mtRequests.filter(({ to, text }) => to === number && text === content);
+    expect(matchingRequests).to.have.lengthOf(times, details(content));
+  });
 });
 
 
