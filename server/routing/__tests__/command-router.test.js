@@ -25,6 +25,15 @@ describe('Mobile originated message parsing', () => {
         });
     });
 
+    it('command keywords are case insensitive', () => {
+      Command('commandkeyword')(target, 'controllerMethod');
+
+      return run({ text: 'COMMANDKEYWORD' })
+        .then(() => {
+          expect(controllerSpy).toHaveBeenCalled();
+        });
+    });
+
     it('controller receives param from route', () => {
       Command('oneParamKeyword :first')(target, 'controllerMethod');
 

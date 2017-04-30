@@ -38,7 +38,7 @@ function createRegexMatcher(route) {
     .replace(/\s/g, '\\s');
 
 
-  const paramValueMatcher = new RegExp(`^${valuePattern}$`, 'g');
+  const paramValueMatcher = new RegExp(`^${valuePattern}$`, 'gi');
 
   return (text) => {
     const result = paramValueMatcher.exec(text);
