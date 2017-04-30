@@ -31,4 +31,13 @@ describe('command-listener', () => {
     expect(listener).toBeCalledWith(event);
     expect(anotherlistener).toBeCalledWith(event);
   });
+
+  it('calls listener any command if is not specified', () => {
+    on(null, listener);
+
+    const event = {};
+    runListeners('anyCommand', event);
+
+    expect(listener).toBeCalledWith(event);
+  });
 });
