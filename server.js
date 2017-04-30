@@ -13,7 +13,9 @@ const ipfilter = require('express-ipfilter').IpFilter;
 const commands = require('./server/commands');
 const { run } = require('./server/routing/command-router');
 const mongoose = require('mongoose');
+const listenForCommandEvents = require('./server/listeners');
 
+listenForCommandEvents();
 mongoose.connect(process.env.MONGODBURI);
 
 const  GROUPS_PATH = '/group';

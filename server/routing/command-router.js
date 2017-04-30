@@ -2,6 +2,7 @@ const createAliases = require('./aliases');
 const InvalidCommandError = require('../routing/invalid-command-error');
 const viewRender = require('./view-render');
 const errorHandler = require('./error-handler');
+const { runListeners } = require('./command-listener');
 
 
 function findLanguage(moText, pattern) {
@@ -88,6 +89,10 @@ function create() {
     const options = { language };
     return match.route.action({ params: match.params, language }, mo)
       .then(viewModel => viewRender(match.route.view, viewModel, options))
+      .then((viewModel) => {
+        runListeners(match.route.view, { params: match.params, mo });
+        return viewModel;
+      })
       .catch(error => errorHandler(error, options));
   }
 
