@@ -1,9 +1,9 @@
 jest.mock('../../transport/transport', () => ({ send: jest.fn() }));
-jest.mock('../groupRepo', () => ({ find: jest.fn(() => new Promise(r => r())) }));
+jest.mock('../group-service', () => ({ find: jest.fn(() => new Promise(r => r())) }));
 
 const transport = require('../../transport/transport');
 const { distribute } = require('../distributor');
-const groupRepo = require('../groupRepo');
+const groupRepo = require('../group-service');
 const DistributionError = require('../../subscription/distribution-error');
 const InvalidCommandError = require('../../routing/invalid-command-error');
 

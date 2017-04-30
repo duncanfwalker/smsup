@@ -22,7 +22,7 @@ function countMessagesReceivedBy(numbers) {
 
 function getNumbersReceiving(text) {
   return mtRequests
-    .filter(message => message.text === text)
+    .filter(message => message.text.includes(text))
     .map(message => message.to);
 }
 
@@ -56,7 +56,8 @@ defineSupportCode(({ When, Then, Before }) => {
   });
 
   Then(/^(?:I|phone numbers? )(.*) receives? an SMS with the content '(.*)' '(.*)' times$/, (number, content, times) => {
-    const matchingRequests = mtRequests.filter(({ to, text }) => to === number && text === content);
+    const matchingRequests = mtRequests
+      .filter(({ to, text }) => to === number && text.includes(content));
     expect(matchingRequests).to.have.lengthOf(times, details(content));
   });
 });

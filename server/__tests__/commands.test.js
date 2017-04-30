@@ -1,11 +1,15 @@
-jest.mock('../subscription/groupRepo', () => ({
+jest.mock('../subscription/group-service', () => ({
   addToGroup: jest.fn(() => new Promise(r => r())),
   removeFromGroup: jest.fn(() => new Promise(r => r())),
 }));
 jest.mock('../subscription/distributor', () => ({
   distribute: jest.fn(() => new Promise(r => r())),
 }));
-const groupRepo = require('../subscription/groupRepo');
+jest.mock('../subscription/user-service', () => ({
+  findOrCreateUser: jest.fn(() => new Promise(r => r({}))),
+  markTermsAsSeen: jest.fn(() => new Promise(r => r())),
+}));
+const groupRepo = require('../subscription/group-service');
 const distributor = require('../subscription/distributor');
 const { join, leave, distribute } = require('../commands');
 const InvalidCommandError = require('../routing/invalid-command-error');
@@ -46,7 +50,7 @@ describe('Mobile originated message parsing', () => {
   it('auto replies for join', () => {
     return join({ params: { groupName: 'groupA' } }, { sender: 'sender1' })
 
-      .then(result => expect(result).toEqual({ groupName: 'groupA' }));
+      .then(result => expect(result).toMatchObject({ groupName: 'groupA' }));
   });
 
   it('does not auto replies for distribute', () => {
