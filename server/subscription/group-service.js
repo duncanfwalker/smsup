@@ -1,18 +1,5 @@
-const mongoose = require('mongoose');
-const Promise = require('bluebird');
-const mongooseDelete = require('mongoose-delete');
 const GroupNotFoundError = require('./group-not-found-error');
-
-mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGODBURI);
-
-const schema = new mongoose.Schema({
-  tag: String,
-  phoneNumbers: [String],
-});
-schema.plugin(mongooseDelete, { overrideMethods: 'all' });
-
-const Group = mongoose.model('Group', schema);
+const Group = require('../repositories/group-repository');
 
 /**
  *

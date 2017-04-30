@@ -1,6 +1,7 @@
 const { defineSupportCode } = require('cucumber');
 const {expect} = require('chai');
-const { save, clearAll } = require('../../server/subscription/groupRepo');
+const { save } = require('../../server/subscription/group-service');
+const { clearAll } = require('./helpers');
 const { sendMessage, getNumbersReceiving } = require('./sms_steps');
 
 function recieveMessagesSentToGroup(phoneNumber, isSubscribeExpected, group, done) {
@@ -18,17 +19,13 @@ defineSupportCode(({ Given, After, Then }) => {
     const phoneNumbers = subscribers.split(',');
     const groups = tags.split(',').map(tag => ({ tag, phoneNumbers }));
     // TODO: do subscription instead of using db directly
-    save(groups);
+    return save(groups);
   });
 
-  Given(/^I am a member of that all (.*) group$/, (tag) => {
-    // TODO: do subscription instead of using db directly
-    save({ tag, phoneNumbers: [''] });
-  });
+  // TODO: do subscription instead of using db directly
+  Given(/^I am a member of that all (.*) group$/, tag => save({ tag, phoneNumbers: [''] }));
 
-  Given(/^that the '(.*)' group exists$/, (tag) => {
-    save([{ tag, phoneNumbers: [] }]);
-  });
+  Given(/^that the '(.*)' group exists$/, tag => save([{ tag, phoneNumbers: [] }]));
 
   Given(/^I am not a member of the '(.*)' group$/, (groupName, done) => {
     sendMessage('', `leave ${groupName}`, done);

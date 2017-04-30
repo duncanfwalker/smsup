@@ -8,10 +8,13 @@ var app = express();
 var winston  = require('winston');
 const autoReplier = require( './server/transport/autoReplier');
 const transport = require('./server/transport/transport');
-const groupAdmin = require('./server/subscription/groupRepo');
+const groupAdmin = require('./server/subscription/group-service');
 const ipfilter = require('express-ipfilter').IpFilter;
 const commands = require('./server/commands');
 const { run } = require('./server/routing/command-router');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGODBURI);
 
 const  GROUPS_PATH = '/group';
 

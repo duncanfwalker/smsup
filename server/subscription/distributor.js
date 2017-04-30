@@ -1,4 +1,4 @@
-const groupRepo = require('./groupRepo');
+const groupRepo = require('./group-service');
 const { send } = require('../transport/transport');
 const DistributionError = require('./distribution-error');
 

@@ -1,8 +1,9 @@
-const groupRepo = require('./subscription/groupRepo');
+const groupRepo = require('./subscription/group-service');
 const { distribute } = require('./subscription/distributor');
 const { invite } = require('./subscription/invitations');
 const InvalidCommandError = require('./routing/invalid-command-error');
 const { Command } = require('./routing/command-router');
+const { findOrCreateUser, markTermsAsSeen } = require('./subscription/user-service');
 
 function parseInvite(splat) {
   const tokens = splat.split(' ')
@@ -20,7 +21,13 @@ const actions = {
     if (!groupName) throw new InvalidCommandError('No group name specified');
     return groupRepo
       .addToGroup(groupName, sender)
-      .then(() => ({ groupName }));
+      .then(() => findOrCreateUser(sender))
+      .then((user) => {
+        const hasSeenTerms = user.hasSeenTerms;
+        markTermsAsSeen(sender);
+        return hasSeenTerms;
+      })
+      .then(hasSeenTerms => ({ groupName, includeTerms: !hasSeenTerms }));
   },
   @Command('leave :groupName')
   leave({ params: { groupName } }, { sender }) {
@@ -43,7 +50,8 @@ const actions = {
   @Command('invite *')
   invite({ params: { splat }, language }, { keyword }) {
     const { phoneNumbers, groupName } = parseInvite(splat);
-    return invite(phoneNumbers, groupName, language, keyword);
+    return invite(phoneNumbers, groupName, language, keyword)
+      .then(() => ({ invited: phoneNumbers }));
   },
   @Command(':groupName *')
   distribute({ params: { groupName } }, { sender, text }) {
