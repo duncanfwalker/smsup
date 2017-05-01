@@ -14,6 +14,8 @@ const commands = require('./server/commands');
 const { run } = require('./server/routing/command-router');
 const mongoose = require('mongoose');
 const listenForCommandEvents = require('./server/listeners');
+const setupAuth = require('./server/admin/admin-auth');
+const passwordless = require('passwordless');
 
 listenForCommandEvents();
 mongoose.connect(process.env.MONGODBURI);
@@ -35,17 +37,18 @@ app.use(httpLogger("dev",{ "stream": {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+setupAuth(app);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client')));
 }
 
-app.get(GROUPS_PATH, (req, res) => {
+app.get(GROUPS_PATH, passwordless.restricted(), (req, res) => {
   groupAdmin.list()
     .then((group) => res.json(group));
 });
 
-app.put(GROUPS_PATH, (req, res) => {
+app.put(GROUPS_PATH, passwordless.restricted(), (req, res) => {
   groupAdmin.save(req.body)
     .then((group) => res.json(group))
     .catch(() => res.json({ status: 'bad' }));
