@@ -1,6 +1,6 @@
 const { send } = require('../transport/transport');
 const passwordless = require('passwordless');
-const MongoStore = require('passwordless-mongostore');
+const MongoStore = require('passwordless-mongostore-bcrypt-node');
 const logger = require('winston');
 const session = require('express-session');
 

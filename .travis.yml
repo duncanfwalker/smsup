@@ -19,6 +19,7 @@ env:
   SUPPORTED_LOCALES=en,fa
   ACTIVE_GATEWAY=nexmo
   MEXCOM_PREMIUM_KEYWORDS=APPS10
+  ADMIN_AUTH_SECRET=catkeyboard
 notifications:
   email:
     on_failure: change
