@@ -87,7 +87,9 @@ function create() {
 
     const language = findLanguage(mo.text, match.route.pattern);
     const options = { language };
-    return match.route.action({ params: match.params, language }, mo)
+    const params = { params: match.params, language };
+    winston.log('Routing', params, mo);
+    return match.route.action(params, mo)
       .then(viewModel => viewRender(match.route.view, viewModel, options))
       .catch(error => errorHandler(error, options))
       .then((viewModel) => {

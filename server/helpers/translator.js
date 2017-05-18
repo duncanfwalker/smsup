@@ -1,10 +1,10 @@
 const i18n = require('i18n');
-const path = require('path');
 
 i18n.configure({
   locales: ['en', 'fa'],
   defaultLocale: 'en',
-  directory: path.resolve(__dirname, './../locales'),
+  // eslint-disable-next-line prefer-template,no-path-concat
+  directory: __dirname + '/../locales',
   syncFiles: !(process.env.NODE_ENV === 'production'),
 });
 
