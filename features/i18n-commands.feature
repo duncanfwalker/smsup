@@ -2,6 +2,10 @@ Feature: Internationalisation
   As a user
   I can interact with SMS in my right-to-left language
 
+  Scenario: Command in Somali language
+    When I send an SMS to SMSUP with content 'abuuris somaligroup'
+    Then I receive an SMS with the content ''somaligroup' group created. '
+
   Scenario: Command in local language
     Given that the 'رهبران' group exists
     When I send an SMS to SMSUP with content 'ورود رهبران'
