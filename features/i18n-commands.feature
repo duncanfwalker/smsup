@@ -8,7 +8,7 @@ Feature: Internationalisation
 
   Scenario: Command in local language
     Given that the 'رهبران' group exists
-    When I send an SMS to SMSUP with content 'ورود رهبران'
+    When I send an SMS to SMSUP with content 'عضویت رهبران'
     Then I receive an SMS with the content 'You have joined the رهبران group. «با ثبت نام در SMSUP، موافقت می کنید تا از ارسال هرگونه پیام شرم آور، تهدیدآمیز، و مخالف قانون جاری و نافذ خودداری می کنید. بدین وسیله UR را از پرداخت غرامت در قبال هرگونه آسیب، مسئولیت، صدمه، یا هر هزینه ای که در نتیجه استفاده شما از SMSUP منتج شود، مبرا می کنید'
 
   Scenario: Non-command word in local language
