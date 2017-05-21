@@ -11,5 +11,7 @@
   "to": "to",
   "You have been invited to the '{{groupName}}' group.": "Waxaa laguugu casuumay kooxda magaceedu yahay {{groupName}}.",
   "You have joined the {{groupName}} group.": "Waxaad ku soo biirtay kooxda magaceedu yahay {{groupName}}. SMS Up habka loo isticmaalo waa...",
-  "You have left the {{groupName}} group.": "You have left the {{groupName}} group."
+  "You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
+  "'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
+  "Reply 'join {{groupName}}' to rejoin": "Reply 'join {{groupName}}' to rejoin"
 }
