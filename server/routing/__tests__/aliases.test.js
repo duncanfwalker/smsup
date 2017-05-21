@@ -6,7 +6,7 @@ describe('Mobile originated message parsing', () => {
   });
   it('', () => {
     expect(createAliases('leave')).toEqual(
-      [{ locale: 'fa', alias: 'خارج' }, { locale: 'en', alias: 'leave' }],
+      [{ locale: 'fa', alias: 'خروج' }, { locale: 'en', alias: 'leave' }],
     );
   });
 });

@@ -1,10 +1,11 @@
 const i18n = require('i18n');
 
+// TODO: sort out including locale files in build
+const locales = process.env.NODE_ENV === 'production' ? './../server/locales' : './../locales';
 i18n.configure({
-  locales: ['en', 'fa'],
+  locales: (process.env.SUPPORTED_LOCALES || 'en').split(','),
   defaultLocale: 'en',
-  // eslint-disable-next-line prefer-template,no-path-concat
-  directory: __dirname + '/../locales',
+  directory: path.resolve(__dirname, locales),
   syncFiles: !(process.env.NODE_ENV === 'production'),
 });
 

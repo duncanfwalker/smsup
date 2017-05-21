@@ -1,5 +1,5 @@
 {
-	"create": "ایجاد",
+  "create": "ایجاد",
   "delete": "حذف",
   "'{{groupName}}' group created.": "'{{groupName}}' group created.",
   "invite": "دعوت",
@@ -14,5 +14,7 @@
   "You have left the {{groupName}} group.": "شما از گروهي به نام {{groupName}} خارج شده ايد.",
   "That didn't work, try again": "That didn't work, try again",
   "Sorry but the '{{groupName}}' group doesn't exist": "Sorry but the '{{groupName}}' group doesn't exist",
-  "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group": "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group"
+  "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group": "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group",
+  "'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
+  "Reply 'join {{groupName}}'\"' to rejoin": "Reply 'join {{groupName}}' to rejoin"
 }
