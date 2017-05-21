@@ -1,7 +1,8 @@
 const i18n = require('i18n');
+const path = require('path');
 
 // TODO: sort out including locale files in build
-const locales = process.env.NODE_ENV === 'production' ? './../server/locales' : './../locales';
+const locales = process.env.NODE_HOME === '/app/.heroku/node' ? './../server/locales' : './../locales';
 i18n.configure({
   locales: (process.env.SUPPORTED_LOCALES || 'en').split(','),
   defaultLocale: 'en',
