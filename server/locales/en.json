@@ -1,19 +1,19 @@
 {
   "create": "create",
   "delete": "delete",
-	"'{{groupName}}' group created.": "'{{groupName}}' group created.",
+  "'{{groupName}}' group created.": "'{{groupName}}' group created.",
   "invite": "invite",
   "join": "join",
   "leave": "leave",
   "Reply \"{{prefix}}join {{groupName}}\" to join.": "Reply \"join {{groupName}}\" to join.",
   "SMS Up terms of use are.": "SMS Up terms of use are.",
-	"the {{groupName}} group has been deleted.": "the {{groupName}} group has been deleted.",
-  "to": "to",
+  "the {{groupName}} group has been deleted.": "the {{groupName}} group has been deleted.",
   "You have been invited to the '{{groupName}}' group.": "You have been invited to the '{{groupName}}' group.",
   "You have joined the {{groupName}} group.": "You have joined the {{groupName}} group.",
   "You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
   "'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
   "That didn't work, try again": "That didn't work, try again",
   "Sorry but the '{{groupName}}' group doesn't exist": "Sorry but the '{{groupName}}' group doesn't exist",
-  "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group": "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group"
+  "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group": "Sorry, you send a message to '{{groupName}}' but no group with name exists. Start your message with name of a group",
+  "Reply 'join {{groupName}}' to rejoin": "Reply 'join {{groupName}}'\"' to rejoin"
 }
