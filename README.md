@@ -34,8 +34,3 @@ Deployment
  - development: Travis builds on merge/push to master
  - staging: developer promotes through Heroku pipeline
  - production: admin promotes through Heroku pipeline
-
-
-Development - Nexmo UK
-Staging - Nexmo Local
-Production - Local operator
