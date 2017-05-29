@@ -56,12 +56,10 @@ app.put(GROUPS_PATH, passwordless.restricted(), (req, res) => {
 
 
 const herokuForwardHeader = 'x-forwarded-for';
-const healthCheck = '51.7.198.66';
-const mexcomm ='203.223.147.133';
-const whitelist = [['127.0.0.1','127.0.0.10'],mexcomm, '174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28',healthCheck];
-app.use(ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader], exclude: [GROUPS_PATH] }));
-
-app.use(transport.createReceiveRoutes(run));
+const mexcomm = '203.223.147.133';
+const whitelist = [['127.0.0.1', '127.0.0.10'], mexcomm, '174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28'];
+const gatewaysOnly = ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader] });
+app.use('/api', [gatewaysOnly, transport.createReceiveRoutes(run)]);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -12,7 +12,7 @@ const router = express.Router(); // eslint-disable-line new-cap
  * @param receiver
  */
 function createReceiveRoute({ createMO, method, respondOk, name }, receiver) {
-  router[method](`/api/${name}/mo`, (req, res) => {
+  router[method](`/${name}/mo`, (req, res) => {
     logger.log('info', 'MO headers: %j', req.headers);
     logger.log('info', 'MO body: %j', req.body);
 
