@@ -55,9 +55,8 @@ app.put(GROUPS_PATH, passwordless.restricted(), (req, res) => {
 });
 
 
+const whitelist = [['127.0.0.1', '127.0.0.10'], ...(process.env.IP_WHITELIST.split(','))];
 const herokuForwardHeader = 'x-forwarded-for';
-const mexcomm = '203.223.147.133';
-const whitelist = [['127.0.0.1', '127.0.0.10'], mexcomm, '174.37.245.32/29', '174.36.197.192/28', '173.193.199.16/28', '119.81.44.0/28'];
 const gatewaysOnly = ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader] });
 app.use('/api', [gatewaysOnly, transport.createReceiveRoutes(run)]);
 
