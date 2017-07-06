@@ -3,6 +3,7 @@ const passwordless = require('passwordless');
 const MongoStore = require('passwordless-mongostore-bcrypt-node');
 const logger = require('winston');
 const session = require('express-session');
+const MongoSessionStore = require('connect-mongodb-session')(session);
 
 const loginForm = `<html>
 <body>
@@ -35,6 +36,10 @@ function setupAuth(app) {
     secret: process.env.ADMIN_AUTH_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: new MongoSessionStore({
+      uri: process.env.MONGODBURI,
+      collection: 'sessions',
+    }),
   }));
 
   app.post(

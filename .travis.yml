@@ -7,6 +7,7 @@ script:
 - npm run build
 install:
 - npm i -g npm@latest
+- cp .env.dist .env
 - npm install
 - cd client
 - npm install
@@ -15,7 +16,7 @@ install:
 services:
 - mongodb
 env:
-- MONGODBURI=localhost:27017/smsup
+- MONGODBURI=mongodb://localhost:27017/smsup
   SUPPORTED_LOCALES=en,fa,so
   ACTIVE_GATEWAY=nexmo
   MEXCOM_PREMIUM_KEYWORDS=APPS10
