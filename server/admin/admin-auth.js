@@ -48,7 +48,11 @@ function setupAuth(app) {
     (req, res) => res.send('Check your text messages for login link'),
   );
 
-  app.get('/login/auth', passwordless.acceptToken({ successRedirect: process.env.ADMIN_HOST }));
+  app.get(
+    '/login/auth',
+    passwordless.acceptToken({ successRedirect: process.env.ADMIN_HOST }),
+    (req, res) => res.send('Login link is invalid'),
+  );
   app.get('/login', (req, res) => res.send(loginForm));
 
   app.use(passwordless.sessionSupport());
