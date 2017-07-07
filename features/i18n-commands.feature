@@ -4,7 +4,7 @@ Feature: Internationalisation
 
   Scenario: Command in Somali language
     When I send an SMS to SMSUP with content 'abuuris somaligroup'
-    Then I receive an SMS with the content ''somaligroup' group created. '
+    Then I receive an SMS with the content 'Guruubka 'somaligroup' la abuuray'
 
   Scenario: Command in local language
     Given that the 'رهبران' group exists

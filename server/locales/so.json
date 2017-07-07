@@ -1,17 +1,17 @@
 {
   "create": "abuuris",
   "delete": "tirtir",
-  "'{{groupName}}' group created.": "'{{groupName}}' group created.",
+	"'{{groupName}}' group created.": "Guruubka '{{groupName}}' la abuuray",
   "invite": "casuumid",
   "join": "kusoobiir",
   "leave": "tagid",
   "Reply \"{{prefix}}join {{groupName}}\" to join.": "Si aad dib ugu soo biirto ka jawaab “{{prefix}}kusoobiir {{groupName}}”.",
   "SMS Up terms of use are.": "Markaad iska diiwaangeliso SMSUP,  waxaad aqbashay in aanad dirin ama soo gelin wax fariin anshax darro ah, hanjabaad ah, ama ku xad gudbaysa wax sharci lagu dabaqo. Markaas waxaad u magdhabaysaa UR ee ah waayitaanka, masuuliyada, waxyeelada ama kharashka ee sifo kasta taas oo UR ama koox saddexaad oo kasta ay dhib ka soo gaadhi karto taas oo aad adigu ku sababtay isticmaalka SMSUP",
-  "the {{groupName}} group has been deleted.": "the {{groupName}} group has been deleted.",
+	"the {{groupName}} group has been deleted.": "'{{groupName}}' guruubka waa la tirtiray",
   "to": "to",
   "You have been invited to the '{{groupName}}' group.": "Waxaa laguugu casuumay kooxda magaceedu yahay {{groupName}}.",
   "You have joined the {{groupName}} group.": "Waxaad ku soo biirtay kooxda magaceedu yahay {{groupName}}. SMS Up habka loo isticmaalo waa...",
-  "You have left the {{groupName}} group.": "You have left the {{groupName}} group.",
-  "'{{groupName}}' group created. ": "'{{groupName}}' group created. ",
-  "Reply 'join {{groupName}}' to rejoin": "Reply 'join {{groupName}}' to rejoin"
+  "You have left the {{groupName}} group.": "Waad ka baxday {{groupName}} guruubka. Jawaab 'kusoobiir {groupName}' dib ugu soo biirid.",
+  "'{{groupName}}' group created. ": "Guruubka '{{groupName}}' la abuuray",
+  "Reply 'join {{groupName}}' to rejoin": "Jawaab 'kusoobiir {{groupName}}' dib ugu soo biirid."
 }
