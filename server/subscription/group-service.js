@@ -72,6 +72,7 @@ function deleteGroup(tag) {
 
 module.exports = {
   find,
+  update,
   save,
   list,
   create,

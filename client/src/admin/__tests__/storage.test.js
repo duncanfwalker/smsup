@@ -1,5 +1,5 @@
 import api from '../storage';
-import {groupUpdated} from '../actions';
+import { groupUpdated } from '../reducer';
 
 describe('reducer', () => {
   const reducer = api.reducer;

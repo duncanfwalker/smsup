@@ -1,5 +1,6 @@
 import React from 'react';
 import '@blueprintjs/core/dist/blueprint.css';
+import classnames from 'classnames';
 import AsyncButton from './async-button';
 
 const style = {
@@ -8,23 +9,32 @@ const style = {
   },
 };
 
-const Groups = ({ groups, onUpdated, onSave, isSaving }) => (
+const Groups = ({ groups, onUpdated, onSave, onDelete, onRestore, isSaving }) => (
   <div>
-    {groups.map(({ tag, phoneNumbers }) => (
-      <div key={tag}>
-        <label style={{ width: '100%', marginBottom: '10px' }}>{`#${tag}`}
+    {groups.map(({ tag, phoneNumbers, isDeleted }) => (
+      <div className="group" key={tag}>
+        <label className={classnames('group__header', { 'group__header--deleted': isDeleted })}>
+          {tag}
+          {!isDeleted &&
+          <AsyncButton icon={'pt-icon-delete'} label="delete" onClick={() => onDelete(tag)} loading={isSaving}/>
+          }
+          {!isDeleted &&
           <textarea
             rows={5}
             placeholder="No one is subscribed to this group"
-            className={`pt-input pt-fill group__phoneNumbers-${tag}`}
-            onChange={(event) => onUpdated(tag, event.target.value.split(' '))}
+            className={`pt-input pt-fill pt-intent-primary group__phoneNumbers`}
+            onChange={event => onUpdated(tag, event.target.value.split(' '))}
             value={(phoneNumbers || []).join(' ')}
           />
+          }
         </label>
+        {isDeleted &&
+        <AsyncButton icon={'pt-icon-undo'} label="restore" onClick={() => onRestore(tag)} loading={isSaving}/>
+        }
       </div>
     ))}
     <div style={style.actionGroup}>
-      <AsyncButton icon={'pt-icon-tick'} label="Save Groups" onClick={onSave} loading={isSaving} />
+      <AsyncButton icon={'pt-icon-tick'} label="save subscriptions" onClick={onSave} loading={isSaving}/>
     </div>
   </div>
 );
@@ -36,7 +46,13 @@ Groups.propTypes = {
   })).isRequired,
   onUpdated: React.PropTypes.func.isRequired,
   onSave: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired,
+  onRestore: React.PropTypes.func.isRequired,
   isSaving: React.PropTypes.bool,
+};
+
+Groups.defaultProps = {
+  isSaving: false,
 };
 
 export default Groups;
