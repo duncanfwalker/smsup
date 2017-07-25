@@ -43,23 +43,25 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client')));
 }
 
-app.get(`${GROUPS_PATH}/`, passwordless.restricted(), (req, res) => {
+const adminAuth = process.env.TOGGLE_ADMIN_AUTH_DISABLED ? (req, res, next) => next() : passwordless.restricted();
+
+app.get(`${GROUPS_PATH}/`, adminAuth, (req, res) => {
   groupAdmin.list()
     .then((group) => res.json(group));
 });
 
-app.put(`${GROUPS_PATH}/`, passwordless.restricted(), (req, res) => {
+app.put(`${GROUPS_PATH}/`, adminAuth, (req, res) => {
   groupAdmin.save(req.body)
     .then((group) => res.json(group))
     .catch(() => res.json({ status: 'bad' }));
 });
-app.post(`${GROUPS_PATH}/`, passwordless.restricted(), (req, res) => {
+app.post(`${GROUPS_PATH}/`, adminAuth, (req, res) => {
   groupAdmin.update(req.body)
     .then((group) => res.json(group))
     .catch(() => res.json({ status: 'bad' }));
 });
 
-app.delete(`${GROUPS_PATH}/:id`, passwordless.restricted(), (req, res) => {
+app.delete(`${GROUPS_PATH}/:id`, adminAuth, (req, res) => {
   groupAdmin.deleteGroup(req.params.id)
     .then(() => res.status(200).send())
     .catch(() => res.status(500).send());
