@@ -12,7 +12,7 @@ class Admin extends Component {
   render() {
     const { groups, deleted, onUpdated, onSave, onDelete, onRestore, isSaving } = this.props;
     return (
-      <div style={{ padding: '10px', width: '80%', margin: 'auto' }}>
+      <div>
         <h1>Groups</h1>
         <p>Manage the mobile numbers subscribed to each group</p>
         <Groups

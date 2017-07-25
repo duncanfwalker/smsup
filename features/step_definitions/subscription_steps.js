@@ -4,6 +4,7 @@ const { save } = require('../../server/subscription/group-service');
 const { clearAll } = require('./helpers');
 const { sendMessage, getNumbersReceiving } = require('./sms_steps');
 
+
 function recieveMessagesSentToGroup(phoneNumber, isSubscribeExpected, group, done) {
   const message = `${group} ${Math.random().toString(36)}`;
   sendMessage('some number', message, () => {
@@ -12,7 +13,7 @@ function recieveMessagesSentToGroup(phoneNumber, isSubscribeExpected, group, don
   });
 }
 
-defineSupportCode(({ Given, After, Then }) => {
+defineSupportCode(({ Given, After, Then, When }) => {
   After(() => clearAll());
 
   Given(/^that phone numbers (.*) are subscribed to the (.*) group$/, (subscribers, tags) => {
@@ -29,6 +30,10 @@ defineSupportCode(({ Given, After, Then }) => {
 
   Given(/^I am not a member of the '(.*)' group$/, (groupName, done) => {
     sendMessage('', `leave ${groupName}`, done);
+  });
+
+  When(/^phone number '([^"]*)' leaves '([^"]*)'$/, (phoneNumber, groupName, done) => {
+    sendMessage(phoneNumber, `leave ${groupName}`, done);
   });
 
   Then(/^I am( not)? subscribed to the '(.*)' group$/, (hasNot, group, done) => {

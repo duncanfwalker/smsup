@@ -16,11 +16,12 @@ const mongoose = require('mongoose');
 const listenForCommandEvents = require('./server/listeners');
 const setupAuth = require('./server/admin/admin-auth');
 const passwordless = require('passwordless');
+const { list } = require('./server/admin/audit-service');
 
 listenForCommandEvents();
 mongoose.connect(process.env.MONGODBURI);
 
-const  GROUPS_PATH = '/group';
+const GROUPS_PATH = '/admin/group';
 
 if(process.env.LOG_LEVEL) {
   winston.level = process.env.LOG_LEVEL;
@@ -43,7 +44,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client')));
 }
 
-const adminAuth = process.env.TOGGLE_ADMIN_AUTH_DISABLED ? (req, res, next) => next() : passwordless.restricted();
+const adminAuth = process.env.TOGGLE_ADMIN_AUTH_DISABLED === '1' ? (req, res, next) => next() : passwordless.restricted();
 
 app.get(`${GROUPS_PATH}/`, adminAuth, (req, res) => {
   groupAdmin.list()
@@ -67,10 +68,20 @@ app.delete(`${GROUPS_PATH}/:id`, adminAuth, (req, res) => {
     .catch(() => res.status(500).send());
 });
 
+app.get('/admin/messages/', adminAuth, (req, res) => {
+  return list().then(messages => {
+    res.json({ messages });
+  });
+});
+
 const whitelist = [['127.0.0.1', '127.0.0.10'], ...(process.env.IP_WHITELIST.split(','))];
 const herokuForwardHeader = 'x-forwarded-for';
 const gatewaysOnly = ipfilter(whitelist, { mode: 'allow', allowedHeaders: [herokuForwardHeader] });
 app.use('/api', [gatewaysOnly, transport.createReceiveRoutes(run)]);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/index.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

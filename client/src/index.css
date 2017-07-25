@@ -3,3 +3,14 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.su-page {
+    padding: 2em 1em;
+}
+
+@media only screen and (min-device-width: 768px) {
+    .su-page {
+        width: 80%;
+        margin: auto;
+    }
+}

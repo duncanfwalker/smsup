@@ -1,0 +1,10 @@
+
+.su-messages--gateway {
+    width: 100%;
+}
+
+@media only screen and (max-width: 320px) {
+    .su-messages--gateway {
+        display: none;
+    }
+}
