@@ -1,8 +1,6 @@
-import api from '../storage';
-import { groupUpdated } from '../reducer';
+import reducer, { groupUpdated } from '../reducer';
 
 describe('reducer', () => {
-  const reducer = api.reducer;
   it('renders without crashing', () => {
     const initialState = {data: [{ tag: 'a', phoneNumbers: ["1", "2"] }]};
 
