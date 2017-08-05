@@ -41,7 +41,7 @@ const actions = {
       .create(groupName, sender)
       .then(() => ({ groupName }));
   },
-  @Command('delete :groupName')
+  @Command('delete :groupName', { disabled: !process.env.TOGGLE_DELETE_COMMAND })
   delete({ params: { groupName } }, {}) { // eslint-disable-line no-empty-pattern
     return groupRepo
       .deleteGroup(groupName)

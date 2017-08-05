@@ -22,6 +22,7 @@ env:
   MEXCOM_PREMIUM_KEYWORDS=APPS10
   ADMIN_AUTH_SECRET=catkeyboard
   TOGGLE_ADMIN_AUTH_DISABLED=1
+  TOGGLE_DELETE_COMMAND=1
 notifications:
   email:
     on_failure: change

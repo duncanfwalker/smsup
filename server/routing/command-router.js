@@ -73,9 +73,12 @@ function matchRoutes(routes, text) {
  */
 function create() {
   const routes = [];
-  function Command(pattern) {
+
+  function Command(pattern, options = {}) {
     return function decorator(target, method) {
-      routes.push({ pattern, action: target[method], view: method });
+      if (!options.disabled) {
+        routes.push({ pattern, action: target[method], view: method });
+      }
     };
   }
 
