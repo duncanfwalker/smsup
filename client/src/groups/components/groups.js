@@ -1,7 +1,7 @@
 import React from 'react';
 import '@blueprintjs/core/dist/blueprint.css';
 import classnames from 'classnames';
-import AsyncButton from './async-button';
+import AsyncButton from './../../async-button';
 
 const style = {
   actionGroup: {

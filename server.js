@@ -69,8 +69,10 @@ app.delete(`${GROUPS_PATH}/:id`, adminAuth, (req, res) => {
 });
 
 app.get('/admin/messages/', adminAuth, (req, res) => {
-  return list().then(messages => {
-    res.json({ messages });
+  const offset = Number(req.query.offset || 0);
+  const pageSize = 20;
+  return list({ offset, pageSize }).then(messages => {
+    res.json({ messages, nextOffset: offset + pageSize, pageSize });
   });
 });
 

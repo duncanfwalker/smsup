@@ -2,6 +2,7 @@ import 'isomorphic-fetch';
 import reduxApi, { transformers } from 'redux-api';
 import adapterFetch from 'redux-api/lib/adapters/fetch';
 import groups from './groups/reducer';
+import messages from './messages/reducer';
 
 const optionsCreator = (url, params, getState) => {
   return {
@@ -18,11 +19,12 @@ const endpoints = {
     url: '/admin/group/(:id)',
     crud: true,
     transformer: transformers.array,
-    groups,
+    reducer: groups,
   },
   messages: {
     url: '/admin/messages/',
     crud: true,
+    reducer: messages,
   },
 };
 
