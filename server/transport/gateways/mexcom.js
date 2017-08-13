@@ -56,7 +56,7 @@ function createMO(body, queryParams) {
 
   const text = decode(queryParams.body);
 
-  const keywords = process.env.MEXCOM_PREMIUM_KEYWORDS.split(',').join('|');
+  const keywords = (process.env.MEXCOM_PREMIUM_KEYWORDS || '').split(',').join('|');
   const keywordPattern = new RegExp(`^(${keywords}) `, 'i');
   const keywordMatch = keywordPattern.exec(text);
   const keyword = keywordMatch !== null ? keywordMatch[1] : undefined;
