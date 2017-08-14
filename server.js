@@ -44,7 +44,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client')));
 }
 
-const adminAuth = process.env.TOGGLE_ADMIN_AUTH_DISABLED === '1' ? (req, res, next) => next() : passwordless.restricted();
+const adminAuth = process.env.TOGGLE_ADMIN_AUTH_DISABLED === '1' ? (
+  (req, res, next) => {
+    winston.log('allowed because of toggle', process.env.TOGGLE_ADMIN_AUTH_DISABLED);
+    next();
+  }
+)
+  : passwordless.restricted();
 
 app.get(`${GROUPS_PATH}/`, adminAuth, (req, res) => {
   groupAdmin.list()

@@ -3,7 +3,7 @@ node_js:
 - 6
 script:
 - npm run lint
-- npm test
+- TOGGLE_ADMIN_AUTH_DISABLED=1 npm test
 - npm run build
 install:
 - npm i -g npm@latest
@@ -21,7 +21,6 @@ env:
   ACTIVE_GATEWAY=nexmo
   MEXCOM_PREMIUM_KEYWORDS=APPS10
   ADMIN_AUTH_SECRET=catkeyboard
-  TOGGLE_ADMIN_AUTH_DISABLED=1
   TOGGLE_DELETE_COMMAND=1
 notifications:
   email:

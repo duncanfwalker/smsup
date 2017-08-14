@@ -17,6 +17,7 @@ const loginForm = `<html>
 </html>
 `;
 
+
 passwordless.init(new MongoStore(process.env.MONGODBURI), { allowTokenReuse: true });
 // Set up a delivery service
 passwordless.addDelivery(
