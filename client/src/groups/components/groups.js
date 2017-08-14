@@ -13,12 +13,13 @@ const Groups = ({ groups, onUpdated, onSave, onDelete, onRestore, isSaving }) =>
   <div>
     {groups.map(({ tag, phoneNumbers, isDeleted }) => (
       <div className="group" key={tag}>
-        <label className={classnames('group__header', { 'group__header--deleted': isDeleted })}>
-          {tag}
+        <div className={classnames('group__header', { 'group__header--deleted': isDeleted })}>
+          <label>{tag}</label>
           {!isDeleted &&
           <AsyncButton icon={'pt-icon-delete'} label="delete" onClick={() => onDelete(tag)} loading={isSaving}/>
           }
-          {!isDeleted &&
+        </div>
+        {!isDeleted &&
           <textarea
             rows={5}
             placeholder="No one is subscribed to this group"
@@ -26,8 +27,8 @@ const Groups = ({ groups, onUpdated, onSave, onDelete, onRestore, isSaving }) =>
             onChange={event => onUpdated(tag, event.target.value.split(' '))}
             value={(phoneNumbers || []).join(' ')}
           />
-          }
-        </label>
+        }
+
         {isDeleted &&
         <AsyncButton icon={'pt-icon-undo'} label="restore" onClick={() => onRestore(tag)} loading={isSaving}/>
         }
